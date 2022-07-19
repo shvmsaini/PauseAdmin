@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">Admin</string>
+
+    <string name="table_name">Tasks</string>
+    <string name="signup">Signup</string>
+    <string name="login">Login</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="signup_text">Don\'t have an account? Signup instead</string>
+    <string name="create_account">create account</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="login_back">Already have an account? Login instead</string>
+    <string name="add_task">Add task</string>
+    <string name="new_task_icon">new task icon</string>
+    <string name="name">Name</string>
+    <string name="explain_task">Explain your task</string>
+    <string name="deadline">Choose a deadline</string>
+    <string name="choose_type_first">Choose type first</string>
+    <string name="add_funds">Add Funds</string>
+    <string name="withdraw_funds">Withdraw Funds</string>
+    <string name="profile">Profile</string>
+</resources>
