@@ -1,9 +1,11 @@
 package com.pause.admin;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -36,7 +38,10 @@ public class HomeActivity extends AppCompatActivity {
             TABLE_KEY = "tblIrj90l9VUxlaT4",
             TABLE_NAME = "Tasks",
             dataURL = "https://api.airtable.com/v0/" + BASE_KEY + "/" + TABLE_NAME + "?api_key=" + API_KEY;
+    private static final String TAG = HomeActivity.class.getSimpleName();
     public DashboardBinding binding;
+    public static final int TIME_DELAY = 2000;
+    public static long back_pressed;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +61,11 @@ public class HomeActivity extends AppCompatActivity {
             startActivity(i);
         });
 
+        binding.viewTasks.setOnClickListener(view -> {
+            Intent i = new Intent(this, TasksActivity.class);
+            startActivity(i);
+        });
+
         binding.addFunds.setOnClickListener(view -> {
             Intent i = new Intent(this, AddFundsActivity.class);
             startActivity(i);
@@ -70,19 +80,19 @@ public class HomeActivity extends AppCompatActivity {
     }
 
 
-
-    private void loadPieChart(){
+    private void loadPieChart() {
         ArrayList<PieEntry> entries = new ArrayList<>();
+        //TODO: get this data from db
         entries.add(new PieEntry(0.2f, "Bromite"));
         entries.add(new PieEntry(0.5f, "Dog"));
         entries.add(new PieEntry(0.1f, "Kot"));
         entries.add(new PieEntry(0.6f, "Clac"));
         entries.add(new PieEntry(0.2f, "App"));
         ArrayList<Integer> colors = new ArrayList<>();
-        for(int color: ColorTemplate.MATERIAL_COLORS){
+        for (int color : ColorTemplate.MATERIAL_COLORS) {
             colors.add(color);
         }
-        for(int color: ColorTemplate.VORDIPLOM_COLORS){
+        for (int color : ColorTemplate.VORDIPLOM_COLORS) {
             colors.add(color);
         }
         PieDataSet dataSet = new PieDataSet(entries, "Example Usage");
@@ -118,7 +128,11 @@ public class HomeActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if(Utils.backTwice(this))
+        if (back_pressed + TIME_DELAY > System.currentTimeMillis()) {
             super.onBackPressed();
+            return;
+        }
+        Toast.makeText(this, "Press once again to exit!", Toast.LENGTH_SHORT).show();
+        back_pressed = System.currentTimeMillis();
     }
 }

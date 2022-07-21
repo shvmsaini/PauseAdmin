@@ -27,11 +27,10 @@ public class SignupActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (Utils.backTwice(getBaseContext())) {
-            super.onBackPressed();
-        }
+        super.onBackPressed();
     }
-    private void initializeLayout(){
+
+    private void initializeLayout() {
         binding = SignupLayoutBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         // For log in link

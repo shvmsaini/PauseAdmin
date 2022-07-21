@@ -19,4 +19,8 @@
     <string name="add_funds">Add Funds</string>
     <string name="withdraw_funds">Withdraw Funds</string>
     <string name="profile">Profile</string>
+    <string name="rupee_symbol">₹</string>
+    <string name="view_tasks">View tasks</string>
+    <string name="approve">Approved:</string>
+    <string name="comment">Comment:</string>
 </resources>

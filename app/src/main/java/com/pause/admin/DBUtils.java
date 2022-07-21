@@ -1,6 +1,5 @@
 package com.pause.admin;
 
-import android.content.Context;
 import android.util.Log;
 
 import com.androidnetworking.AndroidNetworking;
@@ -71,4 +70,8 @@ public class DBUtils {
                     }
                 });
     }
+    public static void postTask(JSONObject task){
+        //TODO: Post to DB
+    }
+
 }

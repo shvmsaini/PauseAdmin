@@ -12,17 +12,19 @@
         <entry key="app/src/main/res/drawable/shape.xml" value="0.2385" />
         <entry key="app/src/main/res/drawable/spinner_bg.xml" value="0.12" />
         <entry key="app/src/main/res/layout/add_funds_activity.xml" value="0.33" />
-        <entry key="app/src/main/res/layout/dashboard.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/dashboard.xml" value="0.25" />
         <entry key="app/src/main/res/layout/login_activity.xml" value="0.2" />
         <entry key="app/src/main/res/layout/login_screen.xml" value="0.2375" />
         <entry key="app/src/main/res/layout/new_task_activity.xml" value="0.18" />
         <entry key="app/src/main/res/layout/signup_layout.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/tasks_activity.xml" value="0.2375" />
+        <entry key="app/src/main/res/layout/tasks_item.xml" value="0.33" />
         <entry key="app/src/main/res/layout/welcome_screen.xml" value="0.25" />
       </map>
     </option>
   </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_7" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

@@ -39,12 +39,12 @@ public class WelcomeActivity extends AppCompatActivity {
         loginButton = findViewById(R.id.welcome_login);
         signupButton = findViewById(R.id.welcome_signup);
         loginButton.setOnClickListener(view -> {
-            Intent i = new Intent(WelcomeActivity.this, LoginActivity.class);
+            Intent i = new Intent(this, LoginActivity.class);
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(i);
         });
         signupButton.setOnClickListener(view -> {
-            Intent i = new Intent(WelcomeActivity.this, SignupActivity.class);
+            Intent i = new Intent(this, SignupActivity.class);
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(i);
         });

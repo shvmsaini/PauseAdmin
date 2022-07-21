@@ -59,7 +59,7 @@ public class AddFundsActivity extends AppCompatActivity implements PaymentResult
     }
 
     private void startPayment() {
-        final int fund = amount;
+        final String fund = amount + "00"; // 00 for decimal places
         Checkout checkout = new Checkout();
         checkout.setImage(R.mipmap.ic_launcher); // logo
         checkout.setKeyID("rzp_test_JWw8SF8VJ9RJ2Q");
@@ -68,7 +68,7 @@ public class AddFundsActivity extends AppCompatActivity implements PaymentResult
             options.put("name", "Pause App");
             options.put("description", "Reference No. #123456");
             options.put("currency", "INR");
-            options.put("amount", fund + "00");
+            options.put("amount", fund);
             checkout.open(this, options);
         } catch (Exception ignored) {
         }

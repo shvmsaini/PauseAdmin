@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/viewHolder"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="16dp"
+    android:background="@drawable/input_background"
+    android:backgroundTint="@color/secondary_blue"
+    android:orientation="vertical"
+    android:padding="8dp">
+
+    <TextView
+        android:id="@+id/task_detail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/explain_task"
+        android:textColor="@color/white" />
+
+    <TextView
+        android:id="@+id/task_deadline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/deadline"
+        android:textColor="@color/white" />
+
+    <TextView
+        android:id="@+id/task_approved"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/approve"
+        android:textColor="@color/white" />
+
+    <TextView
+        android:id="@+id/task_comment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/comment"
+        android:textColor="@color/white" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/approve"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
+            android:backgroundTint="#D32F2F"
+            android:text="Approve" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/disapprove"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_weight="1"
+            android:text="Disapprove"
+            app:backgroundTint="#388E3C" />
+
+    </LinearLayout>
+</LinearLayout>
