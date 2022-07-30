@@ -1,30 +1,67 @@
 package com.pause.admin;
 
 public class Task {
-    String detail;
-    String deadline;
-    String approve;
-    String comment;
+    public String KEY;
+    public String detail, deadline, status, response, doneDate, taskType, typeDetail;
 
-    public Task(String detail, String deadline, String approve) {
+    public Task(String detail, String deadline, String status, String taskType, String typeDetail) {
         this.detail = detail;
         this.deadline = deadline;
-        this.approve = approve;
+        this.status = status;
+        this.taskType = taskType;
+        this.typeDetail = typeDetail;
     }
 
-    public Task(String detail, String deadline, String approve, String comment) {
+    public Task(String detail, String deadline, String status, String taskType,
+                String typeDetail, String response, String doneDate) {
         this.detail = detail;
         this.deadline = deadline;
-        this.approve = approve;
-        this.comment = comment;
+        this.status = status;
+        this.taskType = taskType;
+        this.typeDetail = typeDetail;
+        this.response = response;
+        this.doneDate = doneDate;
+
     }
 
-    public String getComment() {
-        return comment;
+    public String getKEY() {
+        return KEY;
     }
 
-    public void setComment(String comment) {
-        this.comment = comment;
+    public void setKEY(String KEY) {
+        this.KEY = KEY;
+    }
+
+    public String getDoneDate() {
+        return doneDate;
+    }
+
+    public void setDoneDate(String doneDate) {
+        this.doneDate = doneDate;
+    }
+
+    public String getTaskType() {
+        return taskType;
+    }
+
+    public void setTaskType(String taskType) {
+        this.taskType = taskType;
+    }
+
+    public String getTypeDetail() {
+        return typeDetail;
+    }
+
+    public void setTypeDetail(String typeDetail) {
+        this.typeDetail = typeDetail;
+    }
+
+    public String getResponse() {
+        return response;
+    }
+
+    public void setResponse(String response) {
+        this.response = response;
     }
 
     public String getDetail() {
@@ -43,11 +80,11 @@ public class Task {
         this.deadline = deadline;
     }
 
-    public String getApprove() {
-        return approve;
+    public String getStatus() {
+        return status;
     }
 
-    public void setApprove(String approve) {
-        this.approve = approve;
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

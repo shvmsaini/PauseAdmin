@@ -2,12 +2,16 @@ package com.pause.admin;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.DatePicker;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.pause.admin.databinding.NewTaskActivityBinding;
 
@@ -19,8 +23,9 @@ import java.util.Calendar;
 import java.util.Locale;
 
 public class NewTaskActivity extends AppCompatActivity {
-    public NewTaskActivityBinding binding;
+    final String[] items = new String[]{"Location Type", "App Type", "Image Type"};
     final Calendar myCalendar = Calendar.getInstance();
+    public NewTaskActivityBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,14 +37,29 @@ public class NewTaskActivity extends AppCompatActivity {
 
     private void initializeLayout() {
         // spinner
-        final String[] items = new String[]{"Location Type", "App Type", "Image Type"};
-        ArrayAdapter<String> adapter =
-                new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
         binding.taskType.setAdapter(adapter);
 
-        // add task button
-        //TODO: make sure none of them is NULL
-        binding.addTask.setOnClickListener(view -> create());
+        binding.taskType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if (i == 0) binding.taskTypeDetail.setHint("Type location here");
+                else if (i == 1) binding.taskTypeDetail.setHint("Type App name here");
+                else binding.taskTypeDetail.setHint("Describe your image");
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                // Something is always selected
+            }
+        });
+
+        binding.addTask.setOnClickListener(view -> {
+            if(!isEmpty()){
+                create();
+                finish();
+            }
+        });
 
         // date chooser
         DatePickerDialog.OnDateSetListener date = (view, year, month, day) -> {
@@ -62,27 +82,33 @@ public class NewTaskActivity extends AppCompatActivity {
         binding.taskDeadline.setText(dateFormat.format(myCalendar.getTime()));
     }
 
-    private void create(){
+    private void create() {
         final String details = binding.taskDetail.getText().toString();
         final String deadline = binding.taskDeadline.getText().toString();
-        final String assignee = binding.taskAssignee.getText().toString();
         final String type = binding.taskType.getSelectedItem().toString();
         final String typeDetail = binding.taskTypeDetail.getText().toString();
-        JSONObject task = new JSONObject();
-        JSONArray taskDetails = new JSONArray();
-        try {
-            taskDetails.put(new JSONObject()
-                    .put("details", details)
-                    .put("deadline", deadline)
-                    .put("type", type)
-                    .put("assignee", assignee)
-                    .put("type_details", typeDetail)
-                    .put("approve", "false"));
-            task.put(String.valueOf(System.currentTimeMillis()), taskDetails);
-        } catch (Exception e) {
-            e.printStackTrace();
-            Log.e(NewTaskActivity.class.getName(), "Unable to create JSONObject");
-        }
-        DBUtils.postTask(task);
+        Task t = new Task(details, deadline, "UNATTENDED",type, typeDetail, "", "");
+        DBUtils.postTask(t, this);
     }
+
+    public boolean isEmpty() {
+        if (binding.taskDetail.getText().toString().length() == 0) {
+            Toast.makeText(getApplicationContext(), "Please fill task details", Toast.LENGTH_SHORT).show();
+            binding.taskDetail.requestFocus();
+            return true;
+        }
+
+        if (binding.taskDeadline.getText().toString().equals(getResources().getString(R.string.deadline))) {
+            Toast.makeText(getApplicationContext(), "Please Choose a deadline", Toast.LENGTH_SHORT).show();
+            binding.taskDeadline.requestFocus();
+            return true;
+        }
+        if (binding.taskTypeDetail.getText().toString().length() == 0) {
+            Toast.makeText(getApplicationContext(), "Please fill task type details", Toast.LENGTH_SHORT).show();
+            binding.taskTypeDetail.requestFocus();
+            return true;
+        }
+        return false;
+    }
+
 }

@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable/background_with_calender.xml" value="0.196" />
         <entry key="app/src/main/res/drawable/custom_button.xml" value="0.2195" />
         <entry key="app/src/main/res/drawable/ic_baseline_arrow_forward_24.xml" value="0.1525" />
         <entry key="app/src/main/res/drawable/ic_baseline_email_24.xml" value="0.1525" />
@@ -15,11 +16,13 @@
         <entry key="app/src/main/res/layout/dashboard.xml" value="0.25" />
         <entry key="app/src/main/res/layout/login_activity.xml" value="0.2" />
         <entry key="app/src/main/res/layout/login_screen.xml" value="0.2375" />
-        <entry key="app/src/main/res/layout/new_task_activity.xml" value="0.18" />
+        <entry key="app/src/main/res/layout/new_task_activity.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/profile_activity.xml" value="0.23854166666666668" />
         <entry key="app/src/main/res/layout/signup_layout.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/tasks_activity.xml" value="0.2375" />
+        <entry key="app/src/main/res/layout/tasks_activity.xml" value="0.25" />
         <entry key="app/src/main/res/layout/tasks_item.xml" value="0.33" />
         <entry key="app/src/main/res/layout/welcome_screen.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/withdraw_funds_activity.xml" value="0.23487179487179488" />
       </map>
     </option>
   </component>

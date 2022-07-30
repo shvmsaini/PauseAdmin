@@ -17,6 +17,7 @@ import com.razorpay.PaymentResultListener;
 import org.json.JSONObject;
 
 public class AddFundsActivity extends AppCompatActivity implements PaymentResultListener {
+    public final String TAG = AddFundsActivity.class.getSimpleName();
     public AddFundsActivityBinding binding;
     private int amount = 0;
     @Override
@@ -28,7 +29,6 @@ public class AddFundsActivity extends AppCompatActivity implements PaymentResult
     private void initializeLayout() {
         binding = AddFundsActivityBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
         binding.radio1.setOnClickListener(view -> {
             binding.radioGroup.clearCheck();
             binding.radio1.toggle();
@@ -70,7 +70,9 @@ public class AddFundsActivity extends AppCompatActivity implements PaymentResult
             options.put("currency", "INR");
             options.put("amount", fund);
             checkout.open(this, options);
-        } catch (Exception ignored) {
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.e(TAG, "Unable to create JSONObject");
         }
     }
 

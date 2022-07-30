@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Admin</string>
-
     <string name="table_name">Tasks</string>
     <string name="signup">Signup</string>
     <string name="login">Login</string>
@@ -21,6 +20,10 @@
     <string name="profile">Profile</string>
     <string name="rupee_symbol">₹</string>
     <string name="view_tasks">View tasks</string>
-    <string name="approve">Approved:</string>
+    <string name="approve">Status:</string>
     <string name="comment">Comment:</string>
+    <string name="done_date">Done Date:</string>
+    <string name="response">Response:</string>
+    <string name="state">No Tasks Found.</string>
+    <string name="terms"><![CDATA[I accept terms & conditions]]></string>
 </resources>

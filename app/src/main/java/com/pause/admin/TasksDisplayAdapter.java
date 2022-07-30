@@ -1,12 +1,14 @@
 package com.pause.admin;
 
 import android.content.Context;
-import android.util.Log;
+import android.net.http.SslCertificate;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -37,16 +39,27 @@ public class TasksDisplayAdapter extends RecyclerView.Adapter<TasksDisplayAdapte
         Task t = tasks.get(position);
         holder.taskDetail.setText(t.getDetail());
         holder.deadline.setText(t.getDeadline());
-        holder.approved.setText(t.getApprove());
-        if(t.getComment() == null && t.getApprove().equals("UNATTENDED")){
-            holder.comment.setVisibility(View.GONE);
+        holder.status.setText(t.getStatus());
+        holder.taskType.setText(t.getTaskType());
+        if(t.getResponse() == null || t.getStatus().equals("UNATTENDED")){
+            holder.doneDateParent.setVisibility(View.GONE);
+            holder.responseParent.setVisibility(View.GONE);
             holder.approve.setVisibility(View.GONE);
             holder.disapprove.setVisibility(View.GONE);
+
         }
         else{
             holder.itemView.setBackgroundTintList(ContextCompat.getColorStateList(mContext, R.color.teal_700));
-            holder.comment.setText(t.getComment());
+            holder.response.setText(t.getResponse());
+            holder.doneDate.setText(t.getDoneDate());
             // TODO: handle approve/disapprove buttons
+            holder.approve.setOnClickListener(view ->{
+                DBUtils.postPoint(mContext);
+                TasksActivity.deleteTask(t.getKEY(), position);
+            });
+            holder.disapprove.setOnClickListener(view ->{
+                TasksActivity.deleteTask(t.getKEY(), position);
+            });
         }
     }
 
@@ -58,20 +71,32 @@ public class TasksDisplayAdapter extends RecyclerView.Adapter<TasksDisplayAdapte
     public static class ItemViewHolder extends RecyclerView.ViewHolder {
         TextView taskDetail;
         TextView deadline;
-        TextView approved;
-        TextView comment;
+        TextView status;
+        TextView response;
+        TextView taskType;
+        TextView doneDate;
         Button approve;
         Button disapprove;
+        // Parents
+        LinearLayout responseParent;
+        LinearLayout doneDateParent;
+
 
         public ItemViewHolder(View itemView) {
             super(itemView);
             taskDetail = itemView.findViewById(R.id.task_detail);
             deadline = itemView.findViewById(R.id.task_deadline);
-            approved = itemView.findViewById(R.id.task_approved);
-            comment = itemView.findViewById(R.id.task_comment);
+            status = itemView.findViewById(R.id.task_status);
+            response = itemView.findViewById(R.id.task_response);
             approve = itemView.findViewById(R.id.approve);
             disapprove = itemView.findViewById(R.id.disapprove);
-
+            doneDate = itemView.findViewById(R.id.done_date);
+            taskType = itemView.findViewById(R.id.task_type_detail);
+            // parents
+            responseParent = itemView.findViewById(R.id.task_response_parent);
+            doneDateParent = itemView.findViewById(R.id.task_done_date_parent);
         }
     }
+
+
 }

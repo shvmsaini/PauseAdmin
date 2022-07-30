@@ -25,7 +25,21 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="ContentDescription,RtlSymmetry,UseAppTint" />
 
+    <TextView
+        android:id="@+id/funds"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/input_background"
+        android:padding="8dp"
+        android:text="Funds: \u20B9"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/back" />
+
     <LinearLayout
+        android:id="@+id/linearLayout4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -40,70 +54,101 @@
         app:layout_constraintVertical_bias="1.0"
         tools:layout_editor_absoluteX="16dp">
 
-        <EditText
-            android:id="@+id/task_detail"
+        <TextView
             android:layout_width="match_parent"
-            android:layout_height="90dp"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/input_background"
-            android:hint="@string/explain_task"
-            android:importantForAutofill="no"
-            android:inputType="text|textCapSentences|textMultiLine"
-            android:isScrollContainer="true"
-            android:maxLength="200"
-            android:maxLines="4"
-            android:padding="8dp"
-            android:scrollHorizontally="false"
-            android:singleLine="false" />
+            android:layout_height="match_parent"
+            android:layout_margin="32dp"
+            android:gravity="center"
+            android:text="How much would you like to withdraw?"
+            android:textSize="18sp" />
 
         <TextView
-            android:id="@+id/task_deadline"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:layout_gravity="start"
-            android:layout_marginTop="8dp"
+            android:id="@+id/amount"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="32dp"
             android:background="@drawable/input_background"
             android:foregroundGravity="center"
             android:gravity="center|start"
             android:importantForAutofill="no"
             android:padding="8dp"
-            android:text="@string/deadline"
+            android:text="@string/rupee_symbol"
             android:textColor="@color/material_on_background_disabled"
-            android:textSize="18sp"
-            app:drawableTint="@color/secondary_blue"
-            app:drawableEndCompat="@drawable/ic_baseline_calendar_today_24" />
-
-        <Spinner
-            android:id="@+id/task_type"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/spinner_bg" />
+            android:textSize="28sp" />
 
         <EditText
-            android:id="@+id/task_type_detail"
+            android:id="@+id/name_for_withdraw"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:layout_marginTop="8dp"
             android:background="@drawable/input_background"
+            android:hint="@string/name"
             android:importantForAutofill="no"
             android:inputType="text"
-            android:hint="@string/choose_type_first"
             android:padding="8dp"
             android:textColor="@color/material_on_background_disabled"
             android:textSize="18sp" />
 
+        <EditText
+            android:id="@+id/upi_id"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/input_background"
+            android:hint="Your UPI ID"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            android:padding="8dp"
+            android:textColor="@color/material_on_background_disabled"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/email_for_withdraw"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/input_background"
+            android:hint="Your Email"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            android:padding="8dp"
+            android:textColor="@color/material_on_background_disabled"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/password_for_withdraw"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/input_background"
+            android:hint="Your password"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            android:padding="8dp"
+            android:textColor="@color/material_on_background_disabled"
+            android:textSize="18sp" />
+
+        <CheckBox
+            android:id="@+id/terms"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:text="@string/terms" />
+
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/add_task"
+            android:id="@+id/withdraw_amount"
             style="?attr/materialButtonOutlinedStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="16dp"
             android:layout_marginBottom="24dp"
             android:drawableEnd="@drawable/ic_baseline_arrow_forward_24"
             android:drawableTint="@color/purple_200"
-            android:text="@string/add_task"
+            android:enabled="false"
+            android:text="@string/withdraw_funds"
             android:textColor="@color/purple_200"
             app:rippleColor="@color/purple_200"
             app:strokeColor="@color/purple_200" />

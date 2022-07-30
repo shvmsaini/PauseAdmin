@@ -1,77 +1,96 @@
 package com.pause.admin;
 
+import android.content.Context;
 import android.util.Log;
+import android.view.View;
+import android.widget.Toast;
 
-import com.androidnetworking.AndroidNetworking;
-import com.androidnetworking.common.Priority;
-import com.androidnetworking.error.ANError;
-import com.androidnetworking.interfaces.JSONObjectRequestListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.pause.admin.databinding.TasksActivityBinding;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.Objects;
 
 public class DBUtils {
-    private static final String header1 = "Bearer " + HomeActivity.API_KEY;
-    private static final String header2 = "Content-Type: application/json";
+    private static final FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private static final String TAG = DBUtils.class.getSimpleName();
 
-    public static void getData() {
-        AndroidNetworking.get(HomeActivity.dataURL)
-                .setPriority(Priority.HIGH)
-                .build()
-                .getAsJSONObject(new JSONObjectRequestListener() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        if (response == null) {
-                            Log.d("ff", "onResponse: " + "null");
-                            return;
-                        }
-                        Log.d("ff", "onResponse: " + response);
-                    }
-
-                    @Override
-                    public void onError(ANError anError) {
-
-                    }
-                });
+    public static void postTask(Task task, Context c) {
+        DatabaseReference ref = database.getReference("tasks").push();
+        ref.setValue(task).addOnCompleteListener(task1 -> {
+            if (task1.isSuccessful()) {
+                Toast.makeText(c, "Success", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(c, "Failure", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
-    public static void postData() {
-        JSONObject records = new JSONObject();
-        JSONArray arr = new JSONArray();
-        try {
-            JSONObject data = new JSONObject();
-            JSONObject fields = new JSONObject();
-            fields.put("Name", "hello");
-            fields.put("Status", "Done");
-            fields.put("Start date", "2022-07-13");
-            fields.put("Deadline", "2022-07-14");
-            data.put("fields", fields);
-            arr.put(data);
-            records.put("records", arr);
-        } catch (Exception e) {
-            e.printStackTrace();
-            Log.e("INSERT", "oops");
-        }
-        AndroidNetworking.post(HomeActivity.dataURL)
-                .addHeaders("Authorization", header1)
-                .addHeaders("Content-Type", header2)
-                .setPriority(Priority.HIGH)
-                .addJSONObjectBody(records)
-                .build()
-                .getAsJSONObject(new JSONObjectRequestListener() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        Log.e("insert", "onResponse: " + response.toString());
+    public static void getTask(ArrayList<Task> list, TasksDisplayAdapter adapter, TasksActivityBinding binding) {
+        DatabaseReference ref = database.getReference("tasks");
+        ref.get().addOnCompleteListener(task -> {
+            if (!task.isSuccessful()) {
+                Log.d("DBUtils", ": Error getting tasks data");
+            } else {
+                Log.d("DBUtils", ": Task Successful");
+                DataSnapshot res = task.getResult();
+                for (DataSnapshot postSnapshot : res.getChildren()) {
+                    Map<String, Object> map = (Map<String, Object>) postSnapshot.getValue();
+                    binding.progressCircular.setVisibility(View.GONE);
+                    ;
+                    if (map == null || map.isEmpty()) {
+                        binding.emptyView.setVisibility(View.VISIBLE);
                     }
-
-                    @Override
-                    public void onError(ANError anError) {
-
+                    Task t;
+                    if (Objects.requireNonNull(map.get("response")).toString().length() == 0) {
+                        t = new Task(
+                                (String) map.get("detail"),
+                                (String) map.get("deadline"),
+                                (String) map.get("status"),
+                                (String) map.get("taskType"),
+                                (String) map.get("typeDetail"));
+                    } else {
+                        t = new Task(
+                                (String) map.get("detail"),
+                                (String) map.get("deadline"),
+                                (String) map.get("status"),
+                                (String) map.get("taskType"),
+                                (String) map.get("typeDetail"),
+                                (String) map.get("response"),
+                                (String) map.get("doneDate"));
                     }
-                });
-    }
-    public static void postTask(JSONObject task){
-        //TODO: Post to DB
+                    t.setKEY(postSnapshot.getKey());
+                    list.add(t);
+                    adapter.notifyItemInserted(list.size() - 1);
+                }
+            }
+        });
     }
 
+    public static void postPoint(Context c) {
+        DatabaseReference ref = database.getReference("points");
+        ref.get().addOnCompleteListener(task -> {
+            DataSnapshot snapshot = task.getResult();
+            int prev = Integer.parseInt(snapshot.getValue().toString());
+            prev += 10;
+            ref.setValue(prev).addOnCompleteListener(task1 ->{
+                if(task1.isSuccessful()){
+                    Toast.makeText(c, "Reward unlocked!", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    Toast.makeText(c, "Something's wrong. Try again later.", Toast.LENGTH_SHORT).show();
+                }
+            });
+            Log.d(TAG, "s = " + snapshot);
+        });
+    }
+
+    public static void deleteTask(String KEY, TasksDisplayAdapter adapter, int position) {
+        DatabaseReference ref = database.getReference("tasks").child(KEY);
+        ref.removeValue();
+        adapter.notifyItemRemoved(position);
+    }
 }
