@@ -46,13 +46,15 @@ public class TasksDisplayAdapter extends RecyclerView.Adapter<TasksDisplayAdapte
             holder.responseParent.setVisibility(View.GONE);
             holder.approve.setVisibility(View.GONE);
             holder.disapprove.setVisibility(View.GONE);
-
+            holder.reminder.setOnClickListener(v ->{
+                FCMSend.pushNotification(mContext, FCMSend.token, "Your task deadline is near!", t.getDetail());
+            });
         }
         else{
+            holder.reminder.setVisibility(View.GONE);
             holder.itemView.setBackgroundTintList(ContextCompat.getColorStateList(mContext, R.color.teal_700));
             holder.response.setText(t.getResponse());
             holder.doneDate.setText(t.getDoneDate());
-            // TODO: handle approve/disapprove buttons
             holder.approve.setOnClickListener(view ->{
                 DBUtils.postPoint(mContext);
                 TasksActivity.deleteTask(t.getKEY(), position);
@@ -77,6 +79,7 @@ public class TasksDisplayAdapter extends RecyclerView.Adapter<TasksDisplayAdapte
         TextView doneDate;
         Button approve;
         Button disapprove;
+        Button reminder;
         // Parents
         LinearLayout responseParent;
         LinearLayout doneDateParent;
@@ -95,6 +98,8 @@ public class TasksDisplayAdapter extends RecyclerView.Adapter<TasksDisplayAdapte
             // parents
             responseParent = itemView.findViewById(R.id.task_response_parent);
             doneDateParent = itemView.findViewById(R.id.task_done_date_parent);
+            reminder = itemView.findViewById(R.id.reminder);
+
         }
     }
 

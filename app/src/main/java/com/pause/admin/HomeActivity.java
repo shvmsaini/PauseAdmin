@@ -67,6 +67,9 @@ public class HomeActivity extends AppCompatActivity {
             Intent i = new Intent(this, ProfileActivity.class);
             startActivity(i);
         });
+        binding.imageButton.setOnClickListener(v->{
+            binding.profile.performClick();
+        });
 
         setupPieChart();
         loadPieChart();
@@ -127,8 +130,4 @@ public class HomeActivity extends AppCompatActivity {
         Toast.makeText(this, "Press once again to exit!", Toast.LENGTH_SHORT).show();
         back_pressed = System.currentTimeMillis();
     }
-
-
-
-
 }

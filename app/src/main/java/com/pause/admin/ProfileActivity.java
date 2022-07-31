@@ -12,7 +12,6 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initializeLayout();
-        setContentView(R.layout.profile_activity);
     }
 
     private void initializeLayout() {

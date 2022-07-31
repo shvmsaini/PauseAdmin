@@ -26,12 +26,12 @@ public class TasksActivity extends AppCompatActivity {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initializeLayout();
-//        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(task -> {
-//            if (task.isSuccessful()) {
-//                String token = task.getResult();
-//                Log.d(TAG, "token = " + token);
-//            }
-//        });
+        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                String token = task.getResult();
+                Log.d(TAG, "token = " + token);
+            }
+        });
     }
 
     private void initializeLayout() {
