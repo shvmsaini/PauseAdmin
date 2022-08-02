@@ -2,12 +2,16 @@ package com.pause.admin;
 
 import android.content.Context;
 import android.os.StrictMode;
+import android.util.Log;
+
+import androidx.annotation.NonNull;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.firebase.messaging.FirebaseMessagingService;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -15,11 +19,10 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class FCMSend {
+public class FCMSend extends FirebaseMessagingService {
     public static final String BASE_URL = "https://fcm.googleapis.com/fcm/send";
     public static final String SERVER_KEY = "key=AAAAKhULbIU:APA91bGhjN7vWFfggGgyKXPKkQIJ9DMQAg2BpFrndnTBpAs21s3UbmX8ejxfglsVtLrmKnncY9FbINO4XNdJT7qkU-jpE2ay95hwDjHhivabrRTFhjNehSrG2kStlFM5GyKSjLLl6q2n";
-    public static final String token = "c5QofccVTzCHsrkiyLSv3O:APA91bEYnVo4rubY9d00by0AaLzr4k322GHAS9NYKSYsWCMrEktyUqHAQpwqnQc8tbuBeIyUBzaXeAySO94Kgb3PSDvg2a0DMzqBTubOjQqM5sQi5g3tZ7J2oKcv6o3qLLRHIHtstI8G";
-    public static final String token2 = "cozmyJ3QQVGEFAM4bBYEfl:APA91bE0cdDDSxbUpdOkO5B36p10KogCakAHokCp_SZk3E1G1vmzyaFOFmEkuN-qC-iCvjgZKow1YFHLPTGcSRpfV9mVgAUJutvaLC29zHaKYKnwVJSW9eBZ8XZmHpgcigJTsbYqi-j8";
+    private static final String TAG = "FCMSend";
 
     public static void pushNotification(Context c, String token, String title, String message) {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -52,6 +55,14 @@ public class FCMSend {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+    @Override
+    public void onNewToken(@NonNull String token) {
+        Log.d(TAG, "Refreshed token: " + token);
 
+        // If you want to send messages to this application instance or
+        // manage this apps subscriptions on the server side, send the
+        // FCM registration token to your app server.
+        //sendRegistrationToServer(token);
     }
 }

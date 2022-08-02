@@ -20,10 +20,11 @@ public class TasksDisplayAdapter extends RecyclerView.Adapter<TasksDisplayAdapte
     private final String TAG = TasksDisplayAdapter.class.getName();
     public List<Task> tasks;
     public Context mContext;
-
-    public TasksDisplayAdapter(android.content.Context context, List<Task> tasks) {
+    TasksActivity tasksActivity;
+    public TasksDisplayAdapter(android.content.Context context, List<Task> tasks, TasksActivity tasksActivity) {
         this.tasks = tasks;
         this.mContext = context;
+        this.tasksActivity = tasksActivity;
     }
 
     @NonNull
@@ -47,7 +48,7 @@ public class TasksDisplayAdapter extends RecyclerView.Adapter<TasksDisplayAdapte
             holder.approve.setVisibility(View.GONE);
             holder.disapprove.setVisibility(View.GONE);
             holder.reminder.setOnClickListener(v ->{
-                FCMSend.pushNotification(mContext, FCMSend.token, "Your task deadline is near!", t.getDetail());
+                FCMSend.pushNotification(mContext, TasksActivity.token, "Your task deadline is near!", t.getDetail());
             });
         }
         else{
@@ -56,11 +57,11 @@ public class TasksDisplayAdapter extends RecyclerView.Adapter<TasksDisplayAdapte
             holder.response.setText(t.getResponse());
             holder.doneDate.setText(t.getDoneDate());
             holder.approve.setOnClickListener(view ->{
-                DBUtils.postPoint(mContext);
-                TasksActivity.deleteTask(t.getKEY(), position);
+                HomeActivity.dbUtils.postPoint(mContext);
+                tasksActivity.deleteTask(t.getKEY(), position);
             });
             holder.disapprove.setOnClickListener(view ->{
-                TasksActivity.deleteTask(t.getKEY(), position);
+                tasksActivity.deleteTask(t.getKEY(), position);
             });
         }
     }

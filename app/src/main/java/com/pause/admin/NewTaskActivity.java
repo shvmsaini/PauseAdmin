@@ -23,6 +23,7 @@ import java.util.Calendar;
 import java.util.Locale;
 
 public class NewTaskActivity extends AppCompatActivity {
+    final String UNATTENDED = "UNATTENDED";
     final String[] items = new String[]{"Location Type", "App Type", "Image Type"};
     final Calendar myCalendar = Calendar.getInstance();
     public NewTaskActivityBinding binding;
@@ -87,8 +88,8 @@ public class NewTaskActivity extends AppCompatActivity {
         final String deadline = binding.taskDeadline.getText().toString();
         final String type = binding.taskType.getSelectedItem().toString();
         final String typeDetail = binding.taskTypeDetail.getText().toString();
-        Task t = new Task(details, deadline, "UNATTENDED",type, typeDetail, "", "");
-        DBUtils.postTask(t, this);
+        Task t = new Task(details, deadline, UNATTENDED, type, typeDetail);
+        HomeActivity.dbUtils.postTask(t, this);
     }
 
     public boolean isEmpty() {

@@ -1,7 +1,7 @@
 package com.pause.admin;
 
 public class Task {
-    public String KEY;
+    public String key;
     public String detail, deadline, status, response, doneDate, taskType, typeDetail;
 
     public Task(String detail, String deadline, String status, String taskType, String typeDetail) {
@@ -25,11 +25,11 @@ public class Task {
     }
 
     public String getKEY() {
-        return KEY;
+        return key;
     }
 
-    public void setKEY(String KEY) {
-        this.KEY = KEY;
+    public void setKEY(String key) {
+        this.key = key;
     }
 
     public String getDoneDate() {

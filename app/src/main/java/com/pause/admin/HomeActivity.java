@@ -24,11 +24,12 @@ public class HomeActivity extends AppCompatActivity {
     public static long back_pressed;
     private static final String TAG = HomeActivity.class.getSimpleName();
     public DashboardBinding binding;
+    public static DBUtils dbUtils;
     /*
     TODO: 1. Graph and analytics : inprogress MPAndroid Chart
     TODO: 2. Fund Add and withdraw :inprogress
     TODO: 3. App data tracker
-    TODO: 4. Admin app to child app push notify
+    TODO: 4. Admin app to child app push notify :inprogress
     TODO: 5. Transaction Tracker
     TODO: 6. Task Assign (approve / disapproval) : inprogress
     */
@@ -38,6 +39,7 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         layoutInitialize();
         Checkout.preload(getApplicationContext());
+        dbUtils = new DBUtils();
     }
 
     private void layoutInitialize() {
@@ -70,7 +72,9 @@ public class HomeActivity extends AppCompatActivity {
         binding.imageButton.setOnClickListener(v->{
             binding.profile.performClick();
         });
-
+        binding.more.setOnClickListener(v ->{
+            binding.profile.performClick();
+        });
         setupPieChart();
         loadPieChart();
     }

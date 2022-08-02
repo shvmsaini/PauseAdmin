@@ -12,13 +12,12 @@ import com.pause.admin.databinding.TasksActivityBinding;
 
 import java.util.ArrayList;
 import java.util.Map;
-import java.util.Objects;
 
 public class DBUtils {
     private static final FirebaseDatabase database = FirebaseDatabase.getInstance();
     private static final String TAG = DBUtils.class.getSimpleName();
 
-    public static void postTask(Task task, Context c) {
+    public void postTask(Task task, Context c) {
         DatabaseReference ref = database.getReference("tasks").push();
         ref.setValue(task).addOnCompleteListener(task1 -> {
             if (task1.isSuccessful()) {
@@ -29,7 +28,7 @@ public class DBUtils {
         });
     }
 
-    public static void getTask(ArrayList<Task> list, TasksDisplayAdapter adapter, TasksActivityBinding binding) {
+    public void getTask(ArrayList<Task> list, TasksDisplayAdapter adapter, TasksActivityBinding binding) {
         DatabaseReference ref = database.getReference("tasks");
         ref.get().addOnCompleteListener(task -> {
             if (!task.isSuccessful()) {
@@ -43,9 +42,10 @@ public class DBUtils {
                     ;
                     if (map == null || map.isEmpty()) {
                         binding.emptyView.setVisibility(View.VISIBLE);
+                        return;
                     }
                     Task t;
-                    if (Objects.requireNonNull(map.get("response")).toString().length() == 0) {
+                    if (!map.containsKey("response")) {
                         t = new Task(
                                 (String) map.get("detail"),
                                 (String) map.get("deadline"),
@@ -70,7 +70,7 @@ public class DBUtils {
         });
     }
 
-    public static void postPoint(Context c) {
+    public void postPoint(Context c) {
         DatabaseReference ref = database.getReference("points");
         ref.get().addOnCompleteListener(task -> {
             DataSnapshot snapshot = task.getResult();
@@ -88,7 +88,7 @@ public class DBUtils {
         });
     }
 
-    public static void deleteTask(String KEY, TasksDisplayAdapter adapter, int position) {
+    public void deleteTask(String KEY, TasksDisplayAdapter adapter, int position) {
         DatabaseReference ref = database.getReference("tasks").child(KEY);
         ref.removeValue();
         adapter.notifyItemRemoved(position);
