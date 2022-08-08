@@ -48,7 +48,7 @@ public class TasksDisplayAdapter extends RecyclerView.Adapter<TasksDisplayAdapte
             holder.approve.setVisibility(View.GONE);
             holder.disapprove.setVisibility(View.GONE);
             holder.reminder.setOnClickListener(v ->{
-                FCMSend.pushNotification(mContext, TasksActivity.token, "Your task deadline is near!", t.getDetail());
+                HomeActivity.p.pushNotification(mContext, TasksActivity.token, "Your task deadline is near!", t.getDetail());
             });
         }
         else{

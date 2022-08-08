@@ -2,30 +2,25 @@ package com.pause.admin;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 
 import com.pause.admin.databinding.NewTaskActivityBinding;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
 public class NewTaskActivity extends AppCompatActivity {
+    public static String myFormat = "dd/MM/yy";
+    public static SimpleDateFormat dateFormat = new SimpleDateFormat(myFormat, Locale.US);
+    public final static Calendar myCalendar = Calendar.getInstance();
     final String UNATTENDED = "UNATTENDED";
     final String[] items = new String[]{"Location Type", "App Type", "Image Type"};
-    final Calendar myCalendar = Calendar.getInstance();
     public NewTaskActivityBinding binding;
 
     @Override
@@ -56,7 +51,7 @@ public class NewTaskActivity extends AppCompatActivity {
         });
 
         binding.addTask.setOnClickListener(view -> {
-            if(!isEmpty()){
+            if (!isEmpty()) {
                 create();
                 finish();
             }
@@ -78,8 +73,6 @@ public class NewTaskActivity extends AppCompatActivity {
     }
 
     private void updateLabel() {
-        String myFormat = "MM/dd/yy";
-        SimpleDateFormat dateFormat = new SimpleDateFormat(myFormat, Locale.US);
         binding.taskDeadline.setText(dateFormat.format(myCalendar.getTime()));
     }
 

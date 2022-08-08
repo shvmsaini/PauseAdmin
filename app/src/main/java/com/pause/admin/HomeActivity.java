@@ -24,6 +24,7 @@ public class HomeActivity extends AppCompatActivity {
     public static long back_pressed;
     private static final String TAG = HomeActivity.class.getSimpleName();
     public DashboardBinding binding;
+    public static PushNotificationService p;
     public static DBUtils dbUtils;
     /*
     TODO: 1. Graph and analytics : inprogress MPAndroid Chart
@@ -32,14 +33,29 @@ public class HomeActivity extends AppCompatActivity {
     TODO: 4. Admin app to child app push notify :inprogress
     TODO: 5. Transaction Tracker
     TODO: 6. Task Assign (approve / disapproval) : inprogress
+    TODO: 7.  > All Font White
+    TODO: 8.    > Example Usage Position
+    > Dummy Data to Actual Data
+    > Funds Button
+    > Funds History
+    ___________
+
+    > Add Fund Page UI
+    > Withdraw Fund Remove
+    ::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+    > Add Task UI
+    > Chk for Google Map integration
+    > View Task UI
+    > View Task - Latest Task upar
     */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        layoutInitialize();
         Checkout.preload(getApplicationContext());
         dbUtils = new DBUtils();
+        p = new PushNotificationService();
+        layoutInitialize();
     }
 
     private void layoutInitialize() {
@@ -81,12 +97,14 @@ public class HomeActivity extends AppCompatActivity {
 
     private void loadPieChart() {
         ArrayList<PieEntry> entries = new ArrayList<>();
-        //TODO: get this data from db
-        entries.add(new PieEntry(0.2f, "Bromite"));
-        entries.add(new PieEntry(0.5f, "Dog"));
-        entries.add(new PieEntry(0.1f, "Kot"));
-        entries.add(new PieEntry(0.6f, "Clac"));
-        entries.add(new PieEntry(0.2f, "App"));
+        HomeActivity.dbUtils.getUsage(true, entries);
+        if(entries.size() == 0) {
+            entries.add(new PieEntry(0.2f, "AppA"));
+            entries.add(new PieEntry(0.5f, "Dog"));
+            entries.add(new PieEntry(0.1f, "Kot"));
+            entries.add(new PieEntry(0.6f, "Clac"));
+            entries.add(new PieEntry(0.2f, "App"));
+        }
         ArrayList<Integer> colors = new ArrayList<>();
         for (int color : ColorTemplate.MATERIAL_COLORS) {
             colors.add(color);
