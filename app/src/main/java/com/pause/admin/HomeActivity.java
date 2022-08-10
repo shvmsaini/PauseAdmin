@@ -1,5 +1,6 @@
 package com.pause.admin;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -21,11 +22,11 @@ import java.util.ArrayList;
 
 public class HomeActivity extends AppCompatActivity {
     public static final int TIME_DELAY = 2000;
-    public static long back_pressed;
     private static final String TAG = HomeActivity.class.getSimpleName();
-    public DashboardBinding binding;
+    public static long back_pressed;
     public static PushNotificationService p;
     public static DBUtils dbUtils;
+    public DashboardBinding binding;
     /*
     TODO: 1. Graph and analytics : inprogress MPAndroid Chart
     TODO: 2. Fund Add and withdraw :inprogress
@@ -38,16 +39,53 @@ public class HomeActivity extends AppCompatActivity {
     > Dummy Data to Actual Data
     > Funds Button
     > Funds History
-    ___________
-
     > Add Fund Page UI
     > Withdraw Fund Remove
-    ::::::::::::::::::::::::::::::::::::::::::::::::::::::::
     > Add Task UI
     > Chk for Google Map integration
     > View Task UI
-    > View Task - Latest Task upar
     */
+
+    public static void loadPieChart(Context c, ArrayList<PieEntry> entries, DashboardBinding binding) {
+        float total = 0;
+        for(PieEntry p : entries) total += p.getValue();
+        setupPieChart(c,binding,total);
+        ArrayList<Integer> colors = new ArrayList<>();
+        for (int color : ColorTemplate.MATERIAL_COLORS) {
+            colors.add(color);
+        }
+        for (int color : ColorTemplate.VORDIPLOM_COLORS) {
+            colors.add(color);
+        }
+        PieDataSet dataSet = new PieDataSet(entries, "Today's Usage");
+        dataSet.setColors(colors);
+        dataSet.setDrawValues(false);
+        PieData data = new PieData(dataSet);
+        data.setDrawValues(true);
+        data.setValueFormatter(new PercentFormatter(binding.graph));
+        data.setValueTextSize(12f);
+        data.setValueTextColor(Color.BLACK);
+        binding.graph.setData(data);
+        binding.graph.invalidate();
+    }
+
+    public static void setupPieChart(Context c, DashboardBinding binding, float total) {
+        binding.graph.setDrawHoleEnabled(true);
+        binding.graph.setUsePercentValues(false);
+        binding.graph.setEntryLabelTextSize(12);
+        binding.graph.setEntryLabelColor(Color.BLACK);
+        binding.graph.setCenterTextColor(Color.WHITE);
+        binding.graph.setCenterText("Total Usage:\n" + total + " Hrs");
+        binding.graph.setHoleColor(ContextCompat.getColor(c, R.color.secondary_blue));
+        binding.graph.setCenterTextSize(22);
+        binding.graph.getDescription().setEnabled(false);
+        Legend l = binding.graph.getLegend();
+        l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
+        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
+        l.setOrientation(Legend.LegendOrientation.VERTICAL);
+        l.setDrawInside(false);
+        l.setEnabled(true);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,66 +119,16 @@ public class HomeActivity extends AppCompatActivity {
             Intent i = new Intent(this, WithdrawActivity.class);
             startActivity(i);
         });
-        binding.profile.setOnClickListener(v ->{
+        binding.profile.setOnClickListener(view -> {
             Intent i = new Intent(this, ProfileActivity.class);
             startActivity(i);
         });
-        binding.imageButton.setOnClickListener(v->{
-            binding.profile.performClick();
-        });
-        binding.more.setOnClickListener(v ->{
-            binding.profile.performClick();
-        });
-        setupPieChart();
-        loadPieChart();
-    }
 
-    private void loadPieChart() {
-        ArrayList<PieEntry> entries = new ArrayList<>();
-        HomeActivity.dbUtils.getUsage(true, entries);
-        if(entries.size() == 0) {
-            entries.add(new PieEntry(0.2f, "AppA"));
-            entries.add(new PieEntry(0.5f, "Dog"));
-            entries.add(new PieEntry(0.1f, "Kot"));
-            entries.add(new PieEntry(0.6f, "Clac"));
-            entries.add(new PieEntry(0.2f, "App"));
-        }
-        ArrayList<Integer> colors = new ArrayList<>();
-        for (int color : ColorTemplate.MATERIAL_COLORS) {
-            colors.add(color);
-        }
-        for (int color : ColorTemplate.VORDIPLOM_COLORS) {
-            colors.add(color);
-        }
-        PieDataSet dataSet = new PieDataSet(entries, "Example Usage");
-        dataSet.setColors(colors);
-        dataSet.setDrawValues(false);
-        PieData data = new PieData(dataSet);
-        data.setDrawValues(true);
-        data.setValueFormatter(new PercentFormatter(binding.graph));
-        data.setValueTextSize(12f);
-        data.setValueTextColor(Color.BLACK);
-        binding.graph.setData(data);
-        binding.graph.invalidate();
+        dbUtils.getFunds(binding.funds);
 
-    }
-
-    private void setupPieChart() {
-        binding.graph.setDrawHoleEnabled(true);
-        binding.graph.setUsePercentValues(true);
-        binding.graph.setEntryLabelTextSize(12);
-        binding.graph.setEntryLabelColor(Color.BLACK);
-        binding.graph.setCenterTextColor(Color.WHITE);
-        binding.graph.setCenterText("Total Usage:\n" + "8.5 Hrs");
-        binding.graph.setHoleColor(ContextCompat.getColor(this, R.color.secondary_blue));
-        binding.graph.setCenterTextSize(22);
-        binding.graph.getDescription().setEnabled(false);
-        Legend l = binding.graph.getLegend();
-        l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
-        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
-        l.setOrientation(Legend.LegendOrientation.VERTICAL);
-        l.setDrawInside(false);
-        l.setEnabled(true);
+        binding.imageButton.setOnClickListener(v -> binding.profile.performClick());
+        binding.more.setOnClickListener(v -> binding.profile.performClick());
+        HomeActivity.dbUtils.getUsage(true, this, binding);
     }
 
     @Override

@@ -31,7 +31,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/input_background"
         android:padding="8dp"
-        android:text="Funds: \u20B9"
+        android:text="@string/funds"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout4"
         app:layout_constraintEnd_toEndOf="parent"

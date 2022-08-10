@@ -1,5 +1,6 @@
 package com.pause.admin;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.widget.Toast;
@@ -32,7 +33,8 @@ public class ProfileActivity extends AppCompatActivity {
         binding = ProfileActivityBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         binding.fundsHistory.setOnClickListener(v -> {
-            Toast.makeText(this, "TODO", Toast.LENGTH_SHORT).show();
+            Intent i = new Intent(this, FundsHistoryActivity.class);
+            startActivity(i);
         });
         loadLineChart();
         binding.back.setOnClickListener(v -> super.onBackPressed());

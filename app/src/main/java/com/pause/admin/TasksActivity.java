@@ -37,7 +37,6 @@ public class TasksActivity extends AppCompatActivity {
                 Log.d(TAG, "token = " + token);
             }
         });
-
     }
 
     private void initializeLayout() {
@@ -51,9 +50,5 @@ public class TasksActivity extends AppCompatActivity {
 
         // back button
         binding.back.setOnClickListener(view -> super.onBackPressed());
-    }
-
-    private void setTasks(ArrayList<Task> TasksList) {
-//        DBUtils.getTask(TasksList);
     }
 }

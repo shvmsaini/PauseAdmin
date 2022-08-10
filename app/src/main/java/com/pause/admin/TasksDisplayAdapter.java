@@ -1,14 +1,13 @@
 package com.pause.admin;
 
 import android.content.Context;
-import android.net.http.SslCertificate;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -21,6 +20,7 @@ public class TasksDisplayAdapter extends RecyclerView.Adapter<TasksDisplayAdapte
     public List<Task> tasks;
     public Context mContext;
     TasksActivity tasksActivity;
+
     public TasksDisplayAdapter(android.content.Context context, List<Task> tasks, TasksActivity tasksActivity) {
         this.tasks = tasks;
         this.mContext = context;
@@ -42,25 +42,25 @@ public class TasksDisplayAdapter extends RecyclerView.Adapter<TasksDisplayAdapte
         holder.deadline.setText(t.getDeadline());
         holder.status.setText(t.getStatus());
         holder.taskType.setText(t.getTaskType());
-        if(t.getResponse() == null || t.getStatus().equals("UNATTENDED")){
+        if (t.getResponse() == null || t.getStatus().equals("UNATTENDED")) {
             holder.doneDateParent.setVisibility(View.GONE);
             holder.responseParent.setVisibility(View.GONE);
             holder.approve.setVisibility(View.GONE);
             holder.disapprove.setVisibility(View.GONE);
-            holder.reminder.setOnClickListener(v ->{
-                HomeActivity.p.pushNotification(mContext, TasksActivity.token, "Your task deadline is near!", t.getDetail());
-            });
-        }
-        else{
+            holder.reminder.setOnClickListener(v -> HomeActivity.p.pushNotification(mContext,
+                    TasksActivity.token, "Your task deadline is near!", t.getDetail()));
+        } else {
             holder.reminder.setVisibility(View.GONE);
             holder.itemView.setBackgroundTintList(ContextCompat.getColorStateList(mContext, R.color.teal_700));
             holder.response.setText(t.getResponse());
             holder.doneDate.setText(t.getDoneDate());
-            holder.approve.setOnClickListener(view ->{
+            holder.approve.setOnClickListener(view -> {
+                Log.d(TAG, "onBindViewHolder: Task Approved");
                 HomeActivity.dbUtils.postPoint(mContext);
                 tasksActivity.deleteTask(t.getKEY(), position);
             });
-            holder.disapprove.setOnClickListener(view ->{
+            holder.disapprove.setOnClickListener(view -> {
+                Log.d(TAG, "onBindViewHolder: Task Disapproved");
                 tasksActivity.deleteTask(t.getKEY(), position);
             });
         }
@@ -72,18 +72,10 @@ public class TasksDisplayAdapter extends RecyclerView.Adapter<TasksDisplayAdapte
     }
 
     public static class ItemViewHolder extends RecyclerView.ViewHolder {
-        TextView taskDetail;
-        TextView deadline;
-        TextView status;
-        TextView response;
-        TextView taskType;
-        TextView doneDate;
-        Button approve;
-        Button disapprove;
-        Button reminder;
+        TextView taskDetail, deadline, status, response, taskType, doneDate;
+        Button approve, disapprove, reminder;
         // Parents
-        LinearLayout responseParent;
-        LinearLayout doneDateParent;
+        LinearLayout responseParent, doneDateParent;
 
 
         public ItemViewHolder(View itemView) {
@@ -100,7 +92,6 @@ public class TasksDisplayAdapter extends RecyclerView.Adapter<TasksDisplayAdapte
             responseParent = itemView.findViewById(R.id.task_response_parent);
             doneDateParent = itemView.findViewById(R.id.task_done_date_parent);
             reminder = itemView.findViewById(R.id.reminder);
-
         }
     }
 

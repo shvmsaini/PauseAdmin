@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class WelcomeActivity extends AppCompatActivity {
     public Button loginButton;
     public Button signupButton;
-    private String LOGIN_KEY = "isLoggedIn";
+    private final String LOGIN_KEY = "isLoggedIn";
     private boolean loggedIn = false;
     private SharedPreferences prefs;
     public SharedPreferences.Editor editor;

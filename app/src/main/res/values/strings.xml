@@ -27,4 +27,5 @@
     <string name="state">No Tasks Found.</string>
     <string name="terms"><![CDATA[I accept terms & conditions]]></string>
     <string name="reminder">Send a reminder</string>
+    <string name="funds">Funds: ₹</string>
 </resources>

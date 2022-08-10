@@ -54,6 +54,10 @@
             android:name=".WithdrawActivity"
             android:exported="true"
             android:launchMode="singleTop" />
+        <activity
+            android:name=".FundsHistoryActivity"
+            android:exported="true"
+            android:launchMode="singleTop" />
 
         <service
             android:name=".PushNotificationService"

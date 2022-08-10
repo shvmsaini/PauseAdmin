@@ -1,15 +1,12 @@
 package com.pause.admin;
 
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.material.snackbar.Snackbar;
 import com.pause.admin.databinding.AddFundsActivityBinding;
 import com.razorpay.Checkout;
 import com.razorpay.PaymentResultListener;
@@ -20,6 +17,7 @@ public class AddFundsActivity extends AppCompatActivity implements PaymentResult
     public final String TAG = AddFundsActivity.class.getSimpleName();
     public AddFundsActivityBinding binding;
     private int amount = 0;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,29 +27,15 @@ public class AddFundsActivity extends AppCompatActivity implements PaymentResult
     private void initializeLayout() {
         binding = AddFundsActivityBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        binding.radio1.setOnClickListener(view -> {
-            binding.radioGroup.clearCheck();
-            binding.radio1.toggle();
-            amount = 100;
-            binding.amount.setText("\u20B9 100");
-        });
-        binding.radio2.setOnClickListener(view -> {
-            binding.radioGroup.clearCheck();
-            binding.radio2.toggle();
-            amount = 200;
-            binding.amount.setText("\u20B9 200");
-        });
-        binding.radio3.setOnClickListener(view -> {
-            binding.radioGroup.clearCheck();
-            binding.radio3.toggle();
-            amount = 500;
-            binding.amount.setText("\u20B9 500");
-        });
-        binding.radio4.setOnClickListener(view -> {
-            binding.radioGroup.clearCheck();
-            binding.radio4.toggle();
-            amount = 1000;
-            binding.amount.setText("\u20B9 1000");
+
+        HomeActivity.dbUtils.getFunds(binding.funds);
+
+        binding.radioGroup.setOnCheckedChangeListener((radioGroup, i) -> {
+            if (i == R.id.radio1) amount = 100;
+            else if(i == R.id.radio2) amount = 200;
+            else if(i == R.id.radio3) amount = 500;
+            else amount = 1000;
+            binding.amount.setText("\u20B9 " + amount);
         });
 
         binding.back.setOnClickListener(view -> super.onBackPressed());
@@ -78,7 +62,16 @@ public class AddFundsActivity extends AppCompatActivity implements PaymentResult
 
     @Override
     public void onPaymentSuccess(String s) {
-        Toast.makeText(this, "Payment Success", Toast.LENGTH_SHORT).show();
+        Log.d(TAG, "onPaymentSuccess:");
+        try{
+            HomeActivity.dbUtils.postFundsHistory(amount);
+            HomeActivity.dbUtils.postFunds(amount);
+            Toast.makeText(this, "Payment Success", Toast.LENGTH_SHORT).show();
+            HomeActivity.dbUtils.getFunds(binding.funds);
+        } catch (Exception e){
+            Log.e(TAG, "onPaymentSuccess: Failed",e);
+        }
+
     }
 
     @Override
