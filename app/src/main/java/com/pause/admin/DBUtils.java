@@ -2,6 +2,7 @@ package com.pause.admin;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -15,15 +16,11 @@ import com.pause.admin.databinding.DashboardBinding;
 import com.pause.admin.databinding.FundsActivityBinding;
 import com.pause.admin.databinding.TasksActivityBinding;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.TreeMap;
 
 public class DBUtils {
@@ -214,8 +211,29 @@ public class DBUtils {
             int amount = 0;
             if(task.getResult().getValue()!=null)
                 amount = Integer.parseInt(task.getResult().getValue().toString());
-//            String text = R.string.funds + " " + amount;
             view.setText(view.getText() + " "+ amount);
+        });
+    }
+
+    public void postToken(String token) {
+        DatabaseReference ref = database.getReference("token/parent");
+        ref.setValue(token).addOnCompleteListener(task -> {
+            if(!task.isSuccessful()) {
+                Log.e(TAG, "postToken: ", task.getException());
+            }
+        });
+    }
+
+    public void getChildToken(SharedPreferences pref) {
+        DatabaseReference ref = database.getReference("token/child");
+        ref.get().addOnCompleteListener(task -> {
+            if(!task.isSuccessful()) {
+                Log.e(TAG, "getChildToken: Failure", task.getException());
+                return;
+            }
+            TasksActivity.childToken = Objects.requireNonNull(task.getResult().getValue()).toString();
+            pref.edit().putString(TasksActivity.CHILD_TOKEN_KEY, task.getResult().getValue().toString()).apply();
+            Log.d(TAG, "getChildToken: Success, childToken:" + task.getResult().getValue());
         });
     }
 }

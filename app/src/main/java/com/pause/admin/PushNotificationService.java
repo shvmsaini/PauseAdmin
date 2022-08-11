@@ -1,5 +1,6 @@
 package com.pause.admin;
 
+import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -33,14 +34,20 @@ public class PushNotificationService extends FirebaseMessagingService {
     private static final String TAG = PushNotificationService.class.getSimpleName();
     private static int id = 0;
 
+    @SuppressLint("UnspecifiedImmutableFlag")
     @Override
     public void onMessageReceived(@NonNull RemoteMessage message) {
         String title = Objects.requireNonNull(message.getNotification()).getTitle();
         String text = message.getNotification().getBody();
         String CHANNEL_ID = "MESSAGE";
-        CharSequence name;
         Intent i = new Intent(this, TasksActivity.class);
-        PendingIntent p = PendingIntent.getActivity(this, 0, i, PendingIntent.FLAG_ONE_SHOT);
+        PendingIntent pendingIntent;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S)
+            pendingIntent = PendingIntent.getActivity(this, 0, i,
+                    PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_MUTABLE);
+        else pendingIntent = PendingIntent.getActivity(this, 0, i,
+                PendingIntent.FLAG_ONE_SHOT);
+        
         NotificationChannel channel = new NotificationChannel(CHANNEL_ID, "Message Notification",
                 NotificationManager.IMPORTANCE_HIGH);
         getSystemService(NotificationManager.class).createNotificationChannel(channel);
@@ -48,7 +55,7 @@ public class PushNotificationService extends FirebaseMessagingService {
                 .setContentTitle(title)
                 .setContentText(text)
                 .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentIntent(p)
+                .setContentIntent(pendingIntent)
                 .setAutoCancel(true);
         NotificationManagerCompat.from(this).notify(id++, notification.build());
 
@@ -63,8 +70,7 @@ public class PushNotificationService extends FirebaseMessagingService {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("to", token);
             JSONObject notification = new JSONObject();
-            notification.put("title", title)
-                    .put("body", message);
+            notification.put("title", title).put("body", message);
             jsonObject.put("notification", notification);
 
             JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, BASE_URL,
@@ -78,7 +84,8 @@ public class PushNotificationService extends FirebaseMessagingService {
                     return params;
                 }
             };
-            queue.add(request);
+            Log.d(TAG, "pushNotification: to Token" + token);
+            queue.add(request); // send notification
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -87,10 +94,9 @@ public class PushNotificationService extends FirebaseMessagingService {
     @Override
     public void onNewToken(@NonNull String token) {
         Log.d(TAG, "Refreshed token: " + token);
-
         // If you want to send messages to this application instance or
         // manage this apps subscriptions on the server side, send the
         // FCM registration token to your app server.
-        //sendRegistrationToServer(token);
+        HomeActivity.dbUtils.postToken(token);
     }
 }

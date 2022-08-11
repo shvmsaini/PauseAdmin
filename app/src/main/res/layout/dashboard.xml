@@ -55,8 +55,8 @@
             android:background="@drawable/input_background"
             android:backgroundTint="@color/primary_blue"
             android:padding="8dp"
-            android:textColor="@color/white"
             android:text="@string/funds"
+            android:textColor="@color/white"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -86,16 +86,16 @@
             android:visibility="visible" />
 
         <com.github.mikephil.charting.charts.PieChart
-            android:visibility="gone"
             android:id="@+id/graph"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp" />
+            android:layout_marginBottom="16dp"
+            android:visibility="gone" />
 
-        <LinearLayout
+        <TextView
             android:id="@+id/more"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -103,26 +103,16 @@
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="8dp"
             android:gravity="center"
-            android:paddingEnd="8dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="MORE"
-                android:textColor="@color/primary_blue"
-                android:textSize="15sp"
-                android:textStyle="bold" />
-
-            <ImageView
-                android:id="@+id/more_arrow"
-                android:layout_width="30dp"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_baseline_arrow_forward_24"
-                app:tint="@color/primary_blue" />
-        </LinearLayout>
+            android:paddingStart="0dp"
+            android:paddingEnd="8dp"
+            android:text="@string/more"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:drawableEndCompat="@drawable/ic_baseline_arrow_forward_24"
+            app:drawableTint="@color/white" />
 
     </RelativeLayout>
-
 
     <LinearLayout
         android:id="@+id/linearLayout3"
@@ -132,7 +122,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:baselineAligned="true"
-        android:weightSum="2"
+        android:weightSum="3"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -150,8 +140,8 @@
             android:padding="10dp">
 
             <ImageView
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
                 android:layout_margin="32dp"
                 android:adjustViewBounds="true"
                 android:contentDescription="@string/new_task_icon"
@@ -163,13 +153,33 @@
                 android:layout_height="wrap_content"
                 android:text="@string/add_task" />
 
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="16dp"
+            android:layout_weight="1"
+            android:background="@drawable/input_background"
+            android:backgroundTint="@color/secondary_blue"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <ImageView
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_margin="32dp"
+                android:adjustViewBounds="true"
+                android:contentDescription="@string/new_task_icon"
+                android:src="@drawable/usage" />
+
             <Button
                 android:id="@+id/view_tasks"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/view_tasks" />
         </LinearLayout>
-
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -181,8 +191,8 @@
             android:padding="10dp">
 
             <ImageView
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
                 android:layout_margin="32dp"
                 android:contentDescription="@string/new_task_icon"
                 android:src="@drawable/wallet_image" />
@@ -193,11 +203,11 @@
                 android:layout_height="wrap_content"
                 android:text="@string/add_funds" />
 
-            <Button
-                android:id="@+id/withdraw_funds"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/withdraw_funds" />
+<!--            <Button-->
+<!--                android:id="@+id/withdraw_funds"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="@string/withdraw_funds" />-->
         </LinearLayout>
     </LinearLayout>
 

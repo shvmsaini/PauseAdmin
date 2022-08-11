@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -47,8 +48,11 @@ public class TasksDisplayAdapter extends RecyclerView.Adapter<TasksDisplayAdapte
             holder.responseParent.setVisibility(View.GONE);
             holder.approve.setVisibility(View.GONE);
             holder.disapprove.setVisibility(View.GONE);
-            holder.reminder.setOnClickListener(v -> HomeActivity.p.pushNotification(mContext,
-                    TasksActivity.token, "Your task deadline is near!", t.getDetail()));
+            holder.reminder.setOnClickListener(v -> {
+                HomeActivity.p.pushNotification(mContext, TasksActivity.childToken,
+                        "Your task deadline is near!", t.getDetail());
+                Toast.makeText(mContext, "Sent!", Toast.LENGTH_SHORT).show();
+            });
         } else {
             holder.reminder.setVisibility(View.GONE);
             holder.itemView.setBackgroundTintList(ContextCompat.getColorStateList(mContext, R.color.teal_700));

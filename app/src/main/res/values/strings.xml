@@ -28,4 +28,6 @@
     <string name="terms"><![CDATA[I accept terms & conditions]]></string>
     <string name="reminder">Send a reminder</string>
     <string name="funds">Funds: ₹</string>
+    <string name="more">MORE</string>
+    <string name="no_funds_history">No Funds History.</string>
 </resources>

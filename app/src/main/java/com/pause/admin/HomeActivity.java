@@ -29,18 +29,14 @@ public class HomeActivity extends AppCompatActivity {
     public DashboardBinding binding;
     /*
     TODO: 1. Graph and analytics : inprogress MPAndroid Chart
-    TODO: 2. Fund Add and withdraw :inprogress
     TODO: 3. App data tracker
     TODO: 4. Admin app to child app push notify :inprogress
     TODO: 5. Transaction Tracker
-    TODO: 6. Task Assign (approve / disapproval) : inprogress
-    TODO: 7.  > All Font White
-    TODO: 8.    > Example Usage Position
+    TODO: 7. All Font White
+    TODO: 8. Example Usage Position
     > Dummy Data to Actual Data
     > Funds Button
-    > Funds History
     > Add Fund Page UI
-    > Withdraw Fund Remove
     > Add Task UI
     > Chk for Google Map integration
     > View Task UI
@@ -48,15 +44,11 @@ public class HomeActivity extends AppCompatActivity {
 
     public static void loadPieChart(Context c, ArrayList<PieEntry> entries, DashboardBinding binding) {
         float total = 0;
-        for(PieEntry p : entries) total += p.getValue();
-        setupPieChart(c,binding,total);
+        for (PieEntry p : entries) total += p.getValue();
+        setupPieChart(c, binding, total);
         ArrayList<Integer> colors = new ArrayList<>();
-        for (int color : ColorTemplate.MATERIAL_COLORS) {
-            colors.add(color);
-        }
-        for (int color : ColorTemplate.VORDIPLOM_COLORS) {
-            colors.add(color);
-        }
+        for (int color : ColorTemplate.MATERIAL_COLORS) colors.add(color);
+        for (int color : ColorTemplate.VORDIPLOM_COLORS) colors.add(color);
         PieDataSet dataSet = new PieDataSet(entries, "Today's Usage");
         dataSet.setColors(colors);
         dataSet.setDrawValues(false);
@@ -64,7 +56,7 @@ public class HomeActivity extends AppCompatActivity {
         data.setDrawValues(true);
         data.setValueFormatter(new PercentFormatter(binding.graph));
         data.setValueTextSize(12f);
-        data.setValueTextColor(Color.BLACK);
+        data.setValueTextColor(Color.WHITE);
         binding.graph.setData(data);
         binding.graph.invalidate();
     }
@@ -73,16 +65,17 @@ public class HomeActivity extends AppCompatActivity {
         binding.graph.setDrawHoleEnabled(true);
         binding.graph.setUsePercentValues(false);
         binding.graph.setEntryLabelTextSize(12);
-        binding.graph.setEntryLabelColor(Color.BLACK);
+        binding.graph.setEntryLabelColor(Color.WHITE);
         binding.graph.setCenterTextColor(Color.WHITE);
         binding.graph.setCenterText("Total Usage:\n" + total + " Hrs");
         binding.graph.setHoleColor(ContextCompat.getColor(c, R.color.secondary_blue));
         binding.graph.setCenterTextSize(22);
         binding.graph.getDescription().setEnabled(false);
         Legend l = binding.graph.getLegend();
+        l.setTextColor(Color.WHITE);
         l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
-        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
-        l.setOrientation(Legend.LegendOrientation.VERTICAL);
+        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.LEFT);
+        l.setOrientation(Legend.LegendOrientation.HORIZONTAL);
         l.setDrawInside(false);
         l.setEnabled(true);
     }
@@ -115,10 +108,6 @@ public class HomeActivity extends AppCompatActivity {
             startActivity(i);
         });
 
-        binding.withdrawFunds.setOnClickListener(view -> {
-            Intent i = new Intent(this, WithdrawActivity.class);
-            startActivity(i);
-        });
         binding.profile.setOnClickListener(view -> {
             Intent i = new Intent(this, ProfileActivity.class);
             startActivity(i);
