@@ -80,7 +80,7 @@ public class NewTaskActivity extends AppCompatActivity {
         final String deadline = binding.taskDeadline.getText().toString();
         final String type = binding.taskType.getSelectedItem().toString();
         final String typeDetail = binding.taskTypeDetail.getText().toString();
-        Task t = new Task(details, deadline, UNATTENDED, type, typeDetail);
+        Task t = new Task(details, deadline, type, typeDetail);
         HomeActivity.dbUtils.postTask(t, this);
     }
 

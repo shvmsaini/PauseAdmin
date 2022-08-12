@@ -2,6 +2,7 @@ package com.pause.admin;
 
 import android.content.Context;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +15,11 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class TasksDisplayAdapter extends RecyclerView.Adapter<TasksDisplayAdapter.ItemViewHolder> {
     private final String TAG = TasksDisplayAdapter.class.getName();
@@ -40,24 +45,36 @@ public class TasksDisplayAdapter extends RecyclerView.Adapter<TasksDisplayAdapte
     public void onBindViewHolder(@NonNull TasksDisplayAdapter.ItemViewHolder holder, int position) {
         Task t = tasks.get(position);
         holder.taskDetail.setText(t.getDetail());
-        holder.deadline.setText(t.getDeadline());
-        holder.status.setText(t.getStatus());
+        LocalDate deadl = LocalDate.parse(t.getDeadline(), DateTimeFormatter.ofPattern("dd/MM/yy"));
+        String deadline = DateTimeFormatter.ofPattern("dd MMMM, yyyy").format(deadl);
+        holder.deadline.setText(deadline);
         holder.taskType.setText(t.getTaskType());
-        if (t.getResponse() == null || t.getStatus().equals("UNATTENDED")) {
+        if (t.getResponse() == null ) {
             holder.doneDateParent.setVisibility(View.GONE);
             holder.responseParent.setVisibility(View.GONE);
             holder.approve.setVisibility(View.GONE);
             holder.disapprove.setVisibility(View.GONE);
+            holder.dates_parent.setGravity(Gravity.CENTER);
             holder.reminder.setOnClickListener(v -> {
+                holder.reminder.setEnabled(false);
                 HomeActivity.p.pushNotification(mContext, TasksActivity.childToken,
                         "Your task deadline is near!", t.getDetail());
+                Timer buttonTimer = new Timer();
+                buttonTimer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        ((TasksActivity)mContext).runOnUiThread(() -> holder.reminder.setEnabled(true));
+                    }
+                }, 2000);
                 Toast.makeText(mContext, "Sent!", Toast.LENGTH_SHORT).show();
             });
         } else {
             holder.reminder.setVisibility(View.GONE);
-            holder.itemView.setBackgroundTintList(ContextCompat.getColorStateList(mContext, R.color.teal_700));
+            holder.itemView.setBackgroundTintList(ContextCompat.getColorStateList(mContext, R.color.zero_blue));
             holder.response.setText(t.getResponse());
-            holder.doneDate.setText(t.getDoneDate());
+            LocalDate date = LocalDate.parse(t.getDoneDate(), DateTimeFormatter.ofPattern("dd/MM/yy"));
+            String doneDate = DateTimeFormatter.ofPattern("dd MMMM, yyyy").format(date);
+            holder.doneDate.setText(doneDate);
             holder.approve.setOnClickListener(view -> {
                 Log.d(TAG, "onBindViewHolder: Task Approved");
                 HomeActivity.dbUtils.postPoint(mContext);
@@ -76,17 +93,16 @@ public class TasksDisplayAdapter extends RecyclerView.Adapter<TasksDisplayAdapte
     }
 
     public static class ItemViewHolder extends RecyclerView.ViewHolder {
-        TextView taskDetail, deadline, status, response, taskType, doneDate;
+        TextView taskDetail, deadline, response, taskType, doneDate;
         Button approve, disapprove, reminder;
         // Parents
-        LinearLayout responseParent, doneDateParent;
+        LinearLayout responseParent, doneDateParent, dates_parent;
 
 
         public ItemViewHolder(View itemView) {
             super(itemView);
             taskDetail = itemView.findViewById(R.id.task_detail);
             deadline = itemView.findViewById(R.id.task_deadline);
-            status = itemView.findViewById(R.id.task_status);
             response = itemView.findViewById(R.id.task_response);
             approve = itemView.findViewById(R.id.approve);
             disapprove = itemView.findViewById(R.id.disapprove);
@@ -96,6 +112,7 @@ public class TasksDisplayAdapter extends RecyclerView.Adapter<TasksDisplayAdapte
             responseParent = itemView.findViewById(R.id.task_response_parent);
             doneDateParent = itemView.findViewById(R.id.task_done_date_parent);
             reminder = itemView.findViewById(R.id.reminder);
+            dates_parent = itemView.findViewById(R.id.LL_dates);
         }
     }
 

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/viewHolder"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -8,26 +9,31 @@
     android:background="@drawable/input_background"
     android:backgroundTint="@color/secondary_blue"
     android:orientation="vertical"
-    android:padding="8dp">
+    android:padding="16dp"
+    tools:ignore="HardcodedText">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/task_detail_sibling"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingStart="0dp"
             android:paddingEnd="8dp"
-            android:text="Task:"
-            android:textColor="@color/white"
-            android:textStyle="bold" />
+            android:text="Task"
+            android:textColor="@color/white" />
 
         <TextView
             android:id="@+id/task_detail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/white" />
+            android:text="Your task is dis dat and dat dat"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold" />
     </LinearLayout>
 
     <LinearLayout
@@ -38,79 +44,92 @@
             android:id="@+id/task_type_detail_sibling"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingStart="0dp"
             android:paddingEnd="8dp"
             android:text="Task Type:"
-            android:textColor="@color/white"
-            android:textStyle="bold" />
+            android:textColor="@color/white" />
 
         <TextView
             android:id="@+id/task_type_detail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/white" />
+            android:text="Image Type"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/LL_dates"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:orientation="horizontal"
+        android:weightSum="2">
 
-        <TextView
-            android:id="@+id/task_deadline_sibling"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingEnd="8dp"
-            android:text="Deadline:"
-            android:textColor="@color/white"
-            android:textStyle="bold" />
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/task_deadline"
+            <TextView
+                android:id="@+id/task_deadline_sibling"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="0dp"
+                android:paddingEnd="8dp"
+                android:text="Deadline"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/task_deadline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="4dp"
+                android:text="16 september, 2017"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:drawableStartCompat="@drawable/ic_baseline_calendar_today_12"
+                app:drawableTint="@color/white" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/task_done_date_parent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/white" />
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/done_date_sibling"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="8dp"
+                android:paddingStart="0dp"
+                android:paddingEnd="8dp"
+                android:text="@string/done_date"
+                android:textColor="@color/white" />
 
+            <TextView
+                android:id="@+id/done_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="4dp"
+                android:text="16 september, 2017"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:drawableStartCompat="@drawable/ic_baseline_calendar_today_12"
+                app:drawableTint="@color/white" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        </LinearLayout>
 
-        <TextView
-            android:id="@+id/task_status_sibling"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingEnd="8dp"
-            android:text="@string/approve"
-            android:textColor="@color/white"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/task_status"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/white" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/task_done_date_parent"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:id="@+id/done_date_sibling"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingEnd="8dp"
-            android:text="@string/done_date"
-            android:textColor="@color/white"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/done_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
 
     </LinearLayout>
 
@@ -123,6 +142,7 @@
             android:id="@+id/task_response_sibling"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingStart="0dp"
             android:paddingEnd="8dp"
             android:text="@string/response"
             android:textColor="@color/white"
@@ -149,7 +169,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:backgroundTint="#D32F2F"
+            android:backgroundTint="#00897B"
             android:text="Approve" />
 
         <com.google.android.material.button.MaterialButton
@@ -159,15 +179,15 @@
             android:layout_marginStart="8dp"
             android:layout_weight="1"
             android:text="Disapprove"
-            app:backgroundTint="#388E3C" />
+            app:backgroundTint="#E53935" />
     </LinearLayout>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/reminder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:cornerRadius="100sp"
         android:layout_gravity="center"
         android:backgroundTint="#F0495095"
-        android:text="@string/reminder"/>
+        android:text="@string/reminder"
+        app:cornerRadius="100sp" />
 </LinearLayout>

@@ -20,14 +20,13 @@
     <string name="profile">Profile</string>
     <string name="rupee_symbol">₹</string>
     <string name="view_tasks">View tasks</string>
-    <string name="approve">Status:</string>
-    <string name="comment">Comment:</string>
-    <string name="done_date">Done Date:</string>
+    <string name="status">Status</string>
+    <string name="done_date">Completed on</string>
     <string name="response">Response:</string>
     <string name="state">No Tasks Found.</string>
     <string name="terms"><![CDATA[I accept terms & conditions]]></string>
     <string name="reminder">Send a reminder</string>
-    <string name="funds">Funds: ₹</string>
+    <string name="funds">Funds: ₹%1$s</string>
     <string name="more">MORE</string>
     <string name="no_funds_history">No Funds History.</string>
 </resources>

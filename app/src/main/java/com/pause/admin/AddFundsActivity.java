@@ -28,7 +28,7 @@ public class AddFundsActivity extends AppCompatActivity implements PaymentResult
         binding = AddFundsActivityBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        HomeActivity.dbUtils.getFunds(binding.funds);
+        HomeActivity.dbUtils.getFunds(binding.funds, this);
 
         binding.radioGroup.setOnCheckedChangeListener((radioGroup, i) -> {
             if (i == R.id.radio1) amount = 100;
@@ -67,7 +67,7 @@ public class AddFundsActivity extends AppCompatActivity implements PaymentResult
             HomeActivity.dbUtils.postFundsHistory(amount);
             HomeActivity.dbUtils.postFunds(amount);
             Toast.makeText(this, "Payment Success", Toast.LENGTH_SHORT).show();
-            HomeActivity.dbUtils.getFunds(binding.funds);
+            HomeActivity.dbUtils.getFunds(binding.funds, this);
         } catch (Exception e){
             Log.e(TAG, "onPaymentSuccess: Failed",e);
         }

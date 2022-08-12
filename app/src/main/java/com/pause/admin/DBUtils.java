@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.PieEntry;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
@@ -60,14 +61,12 @@ public class DBUtils {
                         t = new Task(
                                 (String) map.get("detail"),
                                 (String) map.get("deadline"),
-                                (String) map.get("status"),
                                 (String) map.get("taskType"),
                                 (String) map.get("typeDetail"));
                     } else {
                         t = new Task(
                                 (String) map.get("detail"),
                                 (String) map.get("deadline"),
-                                (String) map.get("status"),
                                 (String) map.get("taskType"),
                                 (String) map.get("typeDetail"),
                                 (String) map.get("response"),
@@ -102,7 +101,8 @@ public class DBUtils {
         ref.get().addOnCompleteListener(task -> {
             DataSnapshot snapshot = task.getResult();
             int prev = 0;
-            if(snapshot.getValue()!= null) prev = Integer.parseInt(snapshot.getValue().toString());
+            if (snapshot.getValue() != null)
+                prev = Integer.parseInt(snapshot.getValue().toString());
             prev += 10;
             ref.setValue(prev).addOnCompleteListener(task1 -> {
                 if (task1.isSuccessful()) {
@@ -129,28 +129,40 @@ public class DBUtils {
         ref.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 DataSnapshot snapshot = task.getResult();
-                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
-                    Map<String, String> map = (Map<String, String>) postSnapshot.getValue();
+                if (todayOnly) {
+                    Map<String, Object> map = (Map<String, Object>) snapshot.getValue();
                     if (map == null || map.isEmpty()) {
                         Log.e(TAG, "getUsage: Usage Map is NULL");
                         return;
                     }
-                    if (postSnapshot.getKey() == null) return;
-                    if (todayOnly && !today.equals(postSnapshot.getKey())) {
-                        Log.e(TAG, "getUsage: Today's data not found");
-                        continue;
+                    if (map.containsKey(today)) {
+                        Log.d(TAG, "Today's data found: " + map);
+                        Map<String,String> todayUsage = (Map<String, String>) map.get(today);
+                        assert todayUsage != null;
+                        for (Map.Entry<String, String> entry : todayUsage.entrySet()) {
+                            entries.add(new PieEntry(Float.parseFloat(entry.getValue()), entry.getKey()));
+                        }
+                        binding.graph.setVisibility(View.VISIBLE);
+                        binding.progressCircular.setVisibility(View.GONE);
+                        HomeActivity.loadPieChart(c, entries, binding);
                     }
-                    Log.d(TAG, "Today's data found: " + map);
-                    for (Map.Entry<String, String> entry : map.entrySet()) {
-                        entries.add(new PieEntry(Float.parseFloat(entry.getValue()), entry.getKey()));
+                    else {
+                        Log.e(TAG, "getUsage: Today's usage not found");
                     }
-                    binding.graph.setVisibility(View.VISIBLE);
-                    HomeActivity.loadPieChart(c,entries, binding);
-                    return;
+                } else {
+                    ArrayList<BarEntry> allEntries = new ArrayList<>();
+                    int i = 0;
+                    for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                        Map<String, String> mp = (Map<String, String>) postSnapshot;
+                        for(Map.Entry<String,String> entry : mp.entrySet()){
+                            allEntries.add(new BarEntry(i++,Float.parseFloat(entry.getValue())));
+                    }
                 }
             }
-        });
-    }
+
+        }
+    });
+}
 
     @SuppressLint("NotifyDataSetChanged")
     public void getFundsHistory(ArrayList<String[]> list, FundsDisplayAdapter adapter, FundsActivityBinding binding) {
@@ -188,7 +200,8 @@ public class DBUtils {
         ref.get().addOnCompleteListener(task -> {
             DataSnapshot snapshot = task.getResult();
             int prev = 0;
-            if (snapshot.getValue() != null) prev = Integer.parseInt(snapshot.getValue().toString());
+            if (snapshot.getValue() != null)
+                prev = Integer.parseInt(snapshot.getValue().toString());
             prev += amount;
             ref.setValue(prev).addOnCompleteListener(task1 -> {
                 if (task1.isSuccessful()) {
@@ -201,24 +214,23 @@ public class DBUtils {
     }
 
     @SuppressLint("SetTextI18n")
-    public void getFunds(TextView view) {
+    public void getFunds(TextView view, Context c) {
         DatabaseReference ref = database.getReference("funds");
         ref.get().addOnCompleteListener(task -> {
-            if(!task.isSuccessful()){
+            if (!task.isSuccessful()) {
                 Log.e(TAG, "getFunds: Unable to get funds", task.getException());
                 return;
             }
-            int amount = 0;
-            if(task.getResult().getValue()!=null)
-                amount = Integer.parseInt(task.getResult().getValue().toString());
-            view.setText(view.getText() + " "+ amount);
+            String amount = Objects.requireNonNull(task.getResult().getValue()).toString();
+            String str = String.format(c.getResources().getString(R.string.funds), amount);
+            view.setText(str);
         });
     }
 
     public void postToken(String token) {
         DatabaseReference ref = database.getReference("token/parent");
         ref.setValue(token).addOnCompleteListener(task -> {
-            if(!task.isSuccessful()) {
+            if (!task.isSuccessful()) {
                 Log.e(TAG, "postToken: ", task.getException());
             }
         });
@@ -227,7 +239,7 @@ public class DBUtils {
     public void getChildToken(SharedPreferences pref) {
         DatabaseReference ref = database.getReference("token/child");
         ref.get().addOnCompleteListener(task -> {
-            if(!task.isSuccessful()) {
+            if (!task.isSuccessful()) {
                 Log.e(TAG, "getChildToken: Failure", task.getException());
                 return;
             }

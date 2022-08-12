@@ -2,21 +2,19 @@ package com.pause.admin;
 
 public class Task {
     public String key;
-    public String detail, deadline, status, response, doneDate, taskType, typeDetail;
+    public String detail, deadline, response, doneDate, taskType, typeDetail;
 
-    public Task(String detail, String deadline, String status, String taskType, String typeDetail) {
+    public Task(String detail, String deadline, String taskType, String typeDetail) {
         this.detail = detail;
         this.deadline = deadline;
-        this.status = status;
         this.taskType = taskType;
         this.typeDetail = typeDetail;
     }
 
-    public Task(String detail, String deadline, String status, String taskType,
+    public Task(String detail, String deadline, String taskType,
                 String typeDetail, String response, String doneDate) {
         this.detail = detail;
         this.deadline = deadline;
-        this.status = status;
         this.taskType = taskType;
         this.typeDetail = typeDetail;
         this.response = response;
@@ -78,13 +76,5 @@ public class Task {
 
     public void setDeadline(String deadline) {
         this.deadline = deadline;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 }

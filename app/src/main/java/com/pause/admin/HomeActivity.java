@@ -29,9 +29,7 @@ public class HomeActivity extends AppCompatActivity {
     public DashboardBinding binding;
     /*
     TODO: 1. Graph and analytics : inprogress MPAndroid Chart
-    TODO: 3. App data tracker
     TODO: 4. Admin app to child app push notify :inprogress
-    TODO: 5. Transaction Tracker
     TODO: 7. All Font White
     TODO: 8. Example Usage Position
     > Dummy Data to Actual Data
@@ -113,7 +111,7 @@ public class HomeActivity extends AppCompatActivity {
             startActivity(i);
         });
 
-        dbUtils.getFunds(binding.funds);
+        dbUtils.getFunds(binding.funds, this);
 
         binding.imageButton.setOnClickListener(v -> binding.profile.performClick());
         binding.more.setOnClickListener(v -> binding.profile.performClick());
