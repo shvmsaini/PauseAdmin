@@ -10,18 +10,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.w3c.dom.Text;
-
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Locale;
 
-public class FundsDisplayAdapter  extends RecyclerView.Adapter<FundsDisplayAdapter.ItemViewHolder>{
+public class FundsDisplayAdapter extends RecyclerView.Adapter<FundsDisplayAdapter.ItemViewHolder> {
     private final String TAG = FundsDisplayAdapter.class.getSimpleName();
     ArrayList<String[]> arrayList;
 
@@ -45,7 +40,7 @@ public class FundsDisplayAdapter  extends RecyclerView.Adapter<FundsDisplayAdapt
         Date date = new Date(Long.parseLong(strings[0]));
         String fullDay = new SimpleDateFormat("dd MMMM, yyyy", Locale.US).format(date);
         holder.date.setText(fullDay);
-        holder.amount.setText( "₹" + strings[1]);
+        holder.amount.setText("₹" + strings[1]);
     }
 
     @Override

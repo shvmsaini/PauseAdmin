@@ -47,7 +47,7 @@ public class PushNotificationService extends FirebaseMessagingService {
                     PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_MUTABLE);
         else pendingIntent = PendingIntent.getActivity(this, 0, i,
                 PendingIntent.FLAG_ONE_SHOT);
-        
+
         NotificationChannel channel = new NotificationChannel(CHANNEL_ID, "Message Notification",
                 NotificationManager.IMPORTANCE_HIGH);
         getSystemService(NotificationManager.class).createNotificationChannel(channel);

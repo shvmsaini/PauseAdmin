@@ -17,10 +17,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.pause.admin.databinding.LoginActivityBinding;
 
-
 public class LoginActivity extends AppCompatActivity {
-    private static long back_pressed;
     private static final int TIME_DELAY = 2000;
+    private static long back_pressed;
     public LoginActivityBinding binding;
 
     @Override
@@ -40,8 +39,6 @@ public class LoginActivity extends AppCompatActivity {
         }, 23, 29, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
         binding.signup.setText(signupSpan);
         binding.signup.setMovementMethod(LinkMovementMethod.getInstance());
-
-
     }
 
     @Override

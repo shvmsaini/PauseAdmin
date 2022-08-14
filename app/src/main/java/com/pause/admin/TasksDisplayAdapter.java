@@ -45,13 +45,18 @@ public class TasksDisplayAdapter extends RecyclerView.Adapter<TasksDisplayAdapte
     public void onBindViewHolder(@NonNull TasksDisplayAdapter.ItemViewHolder holder, int position) {
         Task t = tasks.get(position);
         holder.taskDetail.setText(t.getDetail());
-        LocalDate deadl = LocalDate.parse(t.getDeadline(), DateTimeFormatter.ofPattern("dd/MM/yy"));
-        String deadline = DateTimeFormatter.ofPattern("dd MMMM, yyyy").format(deadl);
+        LocalDate date = LocalDate.parse(t.getDeadline(), DateTimeFormatter.ofPattern("dd/MM/yy"));
+        String deadline = DateTimeFormatter.ofPattern("d MMMM, yyyy").format(date);
         holder.deadline.setText(deadline);
         holder.taskType.setText(t.getTaskType());
-        if (t.getResponse() == null ) {
-            holder.doneDateParent.setVisibility(View.GONE);
-            holder.responseParent.setVisibility(View.GONE);
+        if (t.getTaskType().equals("Location Type"))
+            holder.taskType.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_baseline_location_on_24, 0, 0, 0);
+        else if (t.getTaskType().equals("App Type"))
+            holder.taskType.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_baseline_android_24, 0, 0, 0);
+
+        if (t.getResponse() == null) {
+            holder.doneDate_parent.setVisibility(View.GONE);
+            holder.response_parent.setVisibility(View.GONE);
             holder.approve.setVisibility(View.GONE);
             holder.disapprove.setVisibility(View.GONE);
             holder.dates_parent.setGravity(Gravity.CENTER);
@@ -63,17 +68,18 @@ public class TasksDisplayAdapter extends RecyclerView.Adapter<TasksDisplayAdapte
                 buttonTimer.schedule(new TimerTask() {
                     @Override
                     public void run() {
-                        ((TasksActivity)mContext).runOnUiThread(() -> holder.reminder.setEnabled(true));
+                        ((TasksActivity) mContext).runOnUiThread(() -> holder.reminder.setEnabled(true));
                     }
                 }, 2000);
                 Toast.makeText(mContext, "Sent!", Toast.LENGTH_SHORT).show();
             });
         } else {
             holder.reminder.setVisibility(View.GONE);
+            holder.taskType.setBackgroundTintList(ContextCompat.getColorStateList(mContext, R.color.secondary_blue));
             holder.itemView.setBackgroundTintList(ContextCompat.getColorStateList(mContext, R.color.zero_blue));
             holder.response.setText(t.getResponse());
-            LocalDate date = LocalDate.parse(t.getDoneDate(), DateTimeFormatter.ofPattern("dd/MM/yy"));
-            String doneDate = DateTimeFormatter.ofPattern("dd MMMM, yyyy").format(date);
+            date = LocalDate.parse(t.getDoneDate(), DateTimeFormatter.ofPattern("dd/MM/yy"));
+            String doneDate = DateTimeFormatter.ofPattern("d MMMM, yyyy").format(date);
             holder.doneDate.setText(doneDate);
             holder.approve.setOnClickListener(view -> {
                 Log.d(TAG, "onBindViewHolder: Task Approved");
@@ -96,7 +102,7 @@ public class TasksDisplayAdapter extends RecyclerView.Adapter<TasksDisplayAdapte
         TextView taskDetail, deadline, response, taskType, doneDate;
         Button approve, disapprove, reminder;
         // Parents
-        LinearLayout responseParent, doneDateParent, dates_parent;
+        LinearLayout response_parent, doneDate_parent, dates_parent;
 
 
         public ItemViewHolder(View itemView) {
@@ -109,8 +115,8 @@ public class TasksDisplayAdapter extends RecyclerView.Adapter<TasksDisplayAdapte
             doneDate = itemView.findViewById(R.id.done_date);
             taskType = itemView.findViewById(R.id.task_type_detail);
             // parents
-            responseParent = itemView.findViewById(R.id.task_response_parent);
-            doneDateParent = itemView.findViewById(R.id.task_done_date_parent);
+            response_parent = itemView.findViewById(R.id.task_response_parent);
+            doneDate_parent = itemView.findViewById(R.id.task_done_date_parent);
             reminder = itemView.findViewById(R.id.reminder);
             dates_parent = itemView.findViewById(R.id.LL_dates);
         }

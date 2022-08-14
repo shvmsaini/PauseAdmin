@@ -3,6 +3,7 @@ package com.pause.admin;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -15,14 +16,18 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.pause.admin.databinding.DashboardBinding;
 import com.pause.admin.databinding.FundsActivityBinding;
+import com.pause.admin.databinding.ProfileActivityBinding;
 import com.pause.admin.databinding.TasksActivityBinding;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Map;
 import java.util.Objects;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 public class DBUtils {
     private static final FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -56,26 +61,18 @@ public class DBUtils {
                         binding.emptyView.setVisibility(View.VISIBLE);
                         return;
                     }
-                    Task t;
-                    if (!map.containsKey("response")) {
-                        t = new Task(
-                                (String) map.get("detail"),
-                                (String) map.get("deadline"),
-                                (String) map.get("taskType"),
-                                (String) map.get("typeDetail"));
-                    } else {
-                        t = new Task(
-                                (String) map.get("detail"),
-                                (String) map.get("deadline"),
-                                (String) map.get("taskType"),
-                                (String) map.get("typeDetail"),
-                                (String) map.get("response"),
-                                (String) map.get("doneDate"));
+                    Task t = new Task((String) map.get("detail"),
+                            (String) map.get("deadline"),
+                            (String) map.get("taskType"),
+                            (String) map.get("typeDetail"));
+                    if (map.containsKey("response")) {
+                        t.setResponse((String) map.get("response"));
+                        t.setDoneDate((String) map.get("doneDate"));
                     }
                     t.setKEY(postSnapshot.getKey());
                     list.add(t);
                 }
-                // Sort the data
+                // Sort the data and this shouldn't be here
                 list.sort((t1, t2) -> {
                     boolean ddt1 = t1.getDoneDate() != null;
                     boolean ddt2 = t2.getDoneDate() != null;
@@ -121,48 +118,79 @@ public class DBUtils {
         adapter.notifyItemRemoved(position);
     }
 
-    public void getUsage(boolean todayOnly, Context c, DashboardBinding binding) {
+    public void getUsage(Context c, DashboardBinding binding) {
         ArrayList<PieEntry> entries = new ArrayList<>();
         //String today = dateFormat.format(myCalendar.getTime());
         String today = "\"01-01-01\""; // remove these ""
-        DatabaseReference ref = database.getReference("Usage");
+        DatabaseReference ref = database.getReference("usage");
         ref.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 DataSnapshot snapshot = task.getResult();
-                if (todayOnly) {
-                    Map<String, Object> map = (Map<String, Object>) snapshot.getValue();
-                    if (map == null || map.isEmpty()) {
-                        Log.e(TAG, "getUsage: Usage Map is NULL");
-                        return;
+                Map<String, Object> map = (Map<String, Object>) snapshot.getValue();
+                if (map == null || map.isEmpty()) {
+                    Log.e(TAG, "getUsage: Usage Map is NULL");
+                    return;
+                }
+                if (map.containsKey(today)) {
+                    Log.d(TAG, "Today's data found: " + map);
+                    Map<String, String> todayUsage = (Map<String, String>) map.get(today);
+                    assert todayUsage != null;
+                    for (Map.Entry<String, String> entry : todayUsage.entrySet()) {
+                        entries.add(new PieEntry(Float.parseFloat(entry.getValue()), entry.getKey()));
                     }
-                    if (map.containsKey(today)) {
-                        Log.d(TAG, "Today's data found: " + map);
-                        Map<String,String> todayUsage = (Map<String, String>) map.get(today);
-                        assert todayUsage != null;
-                        for (Map.Entry<String, String> entry : todayUsage.entrySet()) {
-                            entries.add(new PieEntry(Float.parseFloat(entry.getValue()), entry.getKey()));
-                        }
-                        binding.graph.setVisibility(View.VISIBLE);
-                        binding.progressCircular.setVisibility(View.GONE);
-                        HomeActivity.loadPieChart(c, entries, binding);
-                    }
-                    else {
-                        Log.e(TAG, "getUsage: Today's usage not found");
-                    }
+                    binding.graph.setVisibility(View.VISIBLE);
+                    binding.progressCircular.setVisibility(View.GONE);
+                    HomeActivity.loadPieChart(c, entries, binding);
                 } else {
-                    ArrayList<BarEntry> allEntries = new ArrayList<>();
-                    int i = 0;
-                    for (DataSnapshot postSnapshot : snapshot.getChildren()) {
-                        Map<String, String> mp = (Map<String, String>) postSnapshot;
-                        for(Map.Entry<String,String> entry : mp.entrySet()){
-                            allEntries.add(new BarEntry(i++,Float.parseFloat(entry.getValue())));
-                    }
+                    Log.e(TAG, "getUsage: Today's usage not found");
                 }
             }
+        });
+    }
 
-        }
-    });
-}
+    public void getAllUsage(Context c, ProfileActivityBinding binding) {
+        DatabaseReference ref = database.getReference("usage");
+        ref.get().addOnCompleteListener(task -> {
+            if (!task.isSuccessful()) {
+                Log.e(TAG, "getAllUsage: ", task.getException());
+            } else {
+                DataSnapshot snapshot = task.getResult();
+                ArrayList<BarEntry> allEntries = new ArrayList<>();
+                ArrayList<String> entriesDate = new ArrayList<>();
+                String[] appNames;
+                int maxSize = 0;
+                int i = 0;
+                TreeSet<String> labels = new TreeSet<>();
+
+                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                    Map<String, String> mp = (Map<String, String>) postSnapshot.getValue();
+                    assert mp != null;
+                    maxSize = Math.max(maxSize, mp.size());
+                }
+                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                    Map<String, String> mp = (Map<String, String>) postSnapshot.getValue();
+                    assert mp != null;
+                    TreeMap<String, String> sortedMap = new TreeMap<>(mp);
+                    String date = Objects.requireNonNull(postSnapshot.getKey()).replace("-","/");
+                    entriesDate.add(date.substring(1,date.length()-4));
+                    float[] arr = new float[maxSize];
+                    int j = 0;
+                    Log.d(TAG, "getAllUsage: before " + mp.entrySet());
+                    for (Map.Entry<String, String> entry : sortedMap.entrySet()) {
+                        arr[j++] = Float.parseFloat(entry.getValue());
+                        labels.add(entry.getKey());
+                    }
+                    allEntries.add(new BarEntry(i++, arr));
+                }
+                i = 0;
+                appNames = new String[labels.size()];
+                for(String s : labels){
+                    appNames[i++] = s;
+                }
+                ProfileActivity.loadBarChart(allEntries, binding, entriesDate, appNames, maxSize);
+            }
+        });
+    }
 
     @SuppressLint("NotifyDataSetChanged")
     public void getFundsHistory(ArrayList<String[]> list, FundsDisplayAdapter adapter, FundsActivityBinding binding) {
@@ -224,6 +252,10 @@ public class DBUtils {
             String amount = Objects.requireNonNull(task.getResult().getValue()).toString();
             String str = String.format(c.getResources().getString(R.string.funds), amount);
             view.setText(str);
+            // Store in prefs
+            SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(c).edit();
+            editor.putString("FUNDS", amount).apply();
+
         });
     }
 

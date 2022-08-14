@@ -16,8 +16,8 @@ import java.util.Calendar;
 import java.util.Locale;
 
 public class NewTaskActivity extends AppCompatActivity {
-    public static SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yy", Locale.US);
     public final static Calendar myCalendar = Calendar.getInstance();
+    public static SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yy", Locale.US);
     final String UNATTENDED = "UNATTENDED";
     final String[] items = new String[]{"Location Type", "App Type", "Image Type"};
     public NewTaskActivityBinding binding;

@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/primary_blue"
-    tools:context=".ProfileActivity">
+    tools:context=".ProfileActivity"
+    tools:ignore="HardcodedText">
 
     <ImageView
         android:id="@+id/back"
@@ -61,7 +62,7 @@
         android:backgroundTint="@color/secondary_blue"
         android:drawableEnd="@drawable/ic_baseline_arrow_forward_24"
         android:drawableTint="@color/white"
-        android:text="View funds history"
+        android:text="@string/view_funds_history"
         app:cornerRadius="100sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -78,17 +79,23 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/funds_history">
-
-        <com.github.mikephil.charting.charts.LineChart
-            android:id="@+id/graph"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_margin="8dp"
+        <com.github.mikephil.charting.charts.BarChart
+            android:id="@+id/stackedBar"
             android:layout_weight="1"
-            app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+            android:layout_margin="8dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"/>
+
+        <!--        <com.github.mikephil.charting.charts.LineChart-->
+        <!--            android:id="@+id/graph"-->
+        <!--            android:layout_width="0dp"-->
+        <!--            android:layout_height="match_parent"-->
+        <!--            android:layout_margin="8dp"-->
+        <!--            android:layout_weight="1"-->
+        <!--            app:layout_constraintBottom_toTopOf="@+id/linearLayout3"-->
+        <!--            app:layout_constraintEnd_toEndOf="parent"-->
+        <!--            app:layout_constraintStart_toStartOf="parent"-->
+        <!--            app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />-->
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

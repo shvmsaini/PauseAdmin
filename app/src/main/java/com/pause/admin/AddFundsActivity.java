@@ -1,6 +1,8 @@
 package com.pause.admin;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -17,10 +19,12 @@ public class AddFundsActivity extends AppCompatActivity implements PaymentResult
     public final String TAG = AddFundsActivity.class.getSimpleName();
     public AddFundsActivityBinding binding;
     private int amount = 0;
+    SharedPreferences prefs;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        prefs = PreferenceManager.getDefaultSharedPreferences(this);
         initializeLayout();
     }
 
@@ -28,18 +32,28 @@ public class AddFundsActivity extends AppCompatActivity implements PaymentResult
         binding = AddFundsActivityBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        String funds = prefs.getString("FUNDS" , "0");
+        binding.funds.setText(String.format(this.getResources().getString(R.string.funds), funds));
         HomeActivity.dbUtils.getFunds(binding.funds, this);
-
+        binding.amount.setText(String.format(getResources().getString(R.string.rupee), 0));
+        binding.radio1.setText(String.format(getResources().getString(R.string.rupee), 100));
+        binding.radio2.setText(String.format(getResources().getString(R.string.rupee), 200));
+        binding.radio3.setText(String.format(getResources().getString(R.string.rupee), 500));
+        binding.radio4.setText(String.format(getResources().getString(R.string.rupee), 1000));
         binding.radioGroup.setOnCheckedChangeListener((radioGroup, i) -> {
             if (i == R.id.radio1) amount = 100;
-            else if(i == R.id.radio2) amount = 200;
-            else if(i == R.id.radio3) amount = 500;
+            else if (i == R.id.radio2) amount = 200;
+            else if (i == R.id.radio3) amount = 500;
             else amount = 1000;
-            binding.amount.setText("\u20B9 " + amount);
+            binding.amount.setText(String.format(getResources().getString(R.string.rupee), amount));
         });
 
         binding.back.setOnClickListener(view -> super.onBackPressed());
-        binding.addAmount.setOnClickListener(view -> startPayment());
+        binding.addAmount.setOnClickListener(view -> {
+            if (binding.radioGroup.getCheckedRadioButtonId() == -1) {
+                Toast.makeText(this, "Select amount first.", Toast.LENGTH_SHORT).show();
+            } else startPayment();
+        });
     }
 
     private void startPayment() {
@@ -63,13 +77,13 @@ public class AddFundsActivity extends AppCompatActivity implements PaymentResult
     @Override
     public void onPaymentSuccess(String s) {
         Log.d(TAG, "onPaymentSuccess:");
-        try{
+        try {
             HomeActivity.dbUtils.postFundsHistory(amount);
             HomeActivity.dbUtils.postFunds(amount);
             Toast.makeText(this, "Payment Success", Toast.LENGTH_SHORT).show();
             HomeActivity.dbUtils.getFunds(binding.funds, this);
-        } catch (Exception e){
-            Log.e(TAG, "onPaymentSuccess: Failed",e);
+        } catch (Exception e) {
+            Log.e(TAG, "onPaymentSuccess: Failed", e);
         }
 
     }

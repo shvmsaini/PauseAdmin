@@ -17,46 +17,51 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/task_detail_sibling"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingStart="0dp"
-            android:paddingEnd="8dp"
-            android:text="Task"
-            android:textColor="@color/white" />
+            android:weightSum="2">
+
+            <TextView
+                android:id="@+id/task_detail_sibling"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:paddingStart="0dp"
+                android:paddingEnd="8dp"
+                android:text="Task"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/task_type_detail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/zero_blue"
+                android:background="@drawable/input_background"
+                android:padding="2dp"
+                android:paddingStart="4dp"
+                android:paddingEnd="4dp"
+                android:drawablePadding="4dp"
+                android:gravity="top"
+                android:layout_gravity="top"
+                android:text="Image Type"
+                android:textColor="@color/white"
+                app:drawableStartCompat="@drawable/ic_baseline_image_24"
+                app:drawableTint="@color/white" />
+        </LinearLayout>
+
 
         <TextView
             android:id="@+id/task_detail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:text="Your task is dis dat and dat dat"
             android:textColor="@color/white"
             android:textSize="20sp"
             android:textStyle="bold" />
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <TextView
-            android:id="@+id/task_type_detail_sibling"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingStart="0dp"
-            android:paddingEnd="8dp"
-            android:text="Task Type:"
-            android:textColor="@color/white" />
-
-        <TextView
-            android:id="@+id/task_type_detail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Image Type"
-            android:textColor="@color/white"
-            android:textStyle="bold" />
-    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/LL_dates"
@@ -71,6 +76,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginEnd="4dp"
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical">
@@ -81,6 +87,9 @@
                 android:layout_height="wrap_content"
                 android:paddingStart="0dp"
                 android:paddingEnd="8dp"
+                android:drawablePadding="4dp"
+                app:drawableStartCompat="@drawable/ic_baseline_calendar_today_12"
+                app:drawableTint="@color/white"
                 android:text="Deadline"
                 android:textColor="@color/white" />
 
@@ -88,13 +97,12 @@
                 android:id="@+id/task_deadline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawablePadding="4dp"
-                android:text="16 september, 2017"
+                android:text="16 September, 2017"
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                app:drawableStartCompat="@drawable/ic_baseline_calendar_today_12"
-                app:drawableTint="@color/white" />
+
+                />
         </LinearLayout>
 
         <LinearLayout
@@ -102,6 +110,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginStart="4dp"
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical">
@@ -110,7 +119,9 @@
                 android:id="@+id/done_date_sibling"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawablePadding="8dp"
+                android:drawablePadding="4dp"
+                app:drawableStartCompat="@drawable/ic_baseline_calendar_today_12"
+                app:drawableTint="@color/white"
                 android:paddingStart="0dp"
                 android:paddingEnd="8dp"
                 android:text="@string/done_date"
@@ -121,12 +132,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawablePadding="4dp"
-                android:text="16 september, 2017"
+                android:text="16 September, 2017"
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                app:drawableStartCompat="@drawable/ic_baseline_calendar_today_12"
-                app:drawableTint="@color/white" />
+                />
 
         </LinearLayout>
 
@@ -135,6 +145,7 @@
 
     <LinearLayout
         android:id="@+id/task_response_parent"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -151,6 +162,7 @@
         <TextView
             android:id="@+id/task_response"
             android:layout_width="wrap_content"
+            android:text="https://dkfjsd.dsfsdkfj.fkjsdlf"
             android:layout_height="wrap_content"
             android:textColor="@color/white" />
 

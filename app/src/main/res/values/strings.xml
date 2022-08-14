@@ -18,7 +18,7 @@
     <string name="add_funds">Add Funds</string>
     <string name="withdraw_funds">Withdraw Funds</string>
     <string name="profile">Profile</string>
-    <string name="rupee_symbol">₹</string>
+    <string name="rupee">₹ %1$d</string>
     <string name="view_tasks">View tasks</string>
     <string name="status">Status</string>
     <string name="done_date">Completed on</string>
@@ -29,4 +29,6 @@
     <string name="funds">Funds: ₹%1$s</string>
     <string name="more">MORE</string>
     <string name="no_funds_history">No Funds History.</string>
+    <string name="how_much">How much would you like to add?</string>
+    <string name="view_funds_history">View funds history</string>
 </resources>

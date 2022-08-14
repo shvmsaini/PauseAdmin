@@ -14,32 +14,34 @@ import com.razorpay.Transfer;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class WithdrawActivity extends AppCompatActivity{
+public class WithdrawActivity extends AppCompatActivity {
     public WithdrawFundsActivityBinding binding;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initializeLayout();
     }
-    private void initializeLayout(){
+
+    private void initializeLayout() {
         binding = WithdrawFundsActivityBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        binding.terms.setOnClickListener(view ->{
-         //   binding.withdrawAmount.setEnabled(binding.terms.isChecked());
+        binding.terms.setOnClickListener(view -> {
+            //   binding.withdrawAmount.setEnabled(binding.terms.isChecked());
         });
-        
+
         binding.withdrawAmount.setOnClickListener(view -> {
-            if(!binding.terms.isChecked()){
+            if (!binding.terms.isChecked()) {
                 Toast.makeText(this, "Accept Terms & Conditions", Toast.LENGTH_SHORT).show();
                 return;
             }
             try {
                 RazorpayClient client = new RazorpayClient("rzp_test_JWw8SF8VJ9RJ2Q", "tusStU28MLtu8ey8etfanuBj");
                 JSONObject transferRequest = new JSONObject();
-                transferRequest.put("amount",50000);
-                transferRequest.put("currency","INR");
-                transferRequest.put("account","acc_CPRsN1LkFccllA");
+                transferRequest.put("amount", 50000);
+                transferRequest.put("currency", "INR");
+                transferRequest.put("account", "acc_CPRsN1LkFccllA");
                 Thread t = new Thread(() -> {
 
                     try {

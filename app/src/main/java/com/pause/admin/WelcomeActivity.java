@@ -10,12 +10,12 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class WelcomeActivity extends AppCompatActivity {
+    private final String LOGIN_KEY = "isLoggedIn";
     public Button loginButton;
     public Button signupButton;
-    private final String LOGIN_KEY = "isLoggedIn";
+    public SharedPreferences.Editor editor;
     private boolean loggedIn = false;
     private SharedPreferences prefs;
-    public SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
