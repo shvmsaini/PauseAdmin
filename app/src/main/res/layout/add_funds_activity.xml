@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     android:background="@color/primary_blue"
     android:fitsSystemWindows="true"
-    tools:context=".NewTaskActivity">
+    tools:context=".ui.NewTaskActivity"
+    tools:ignore="ContentDescription">
 
     <ImageView
         android:id="@+id/back"
@@ -18,21 +19,34 @@
         android:foregroundTint="@color/white"
         android:padding="16dp"
         android:src="@drawable/ic_baseline_arrow_back_24"
-        android:tint="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="ContentDescription,RtlSymmetry,UseAppTint" />
+        app:tint="@color/white" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:text="@string/add_funds"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/back"
+        app:layout_constraintStart_toStartOf="@+id/back"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/funds"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/input_background"
+        android:background="@drawable/gradient_bg"
         android:padding="8dp"
         android:text="@string/funds"
-        android:textSize="18sp"
+        android:textColor="@color/white"
+        android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -57,10 +71,14 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="32dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="32dp"
             android:gravity="center"
             android:text="@string/how_much"
-            android:textSize="18sp" />
+            android:textColor="@color/black"
+            android:textSize="19sp" />
 
         <TextView
             android:id="@+id/amount"
@@ -74,42 +92,93 @@
             android:importantForAutofill="no"
             android:padding="8dp"
             android:text="@string/rupee"
-            android:textColor="@color/material_on_background_disabled"
+            android:textColor="@color/black"
             android:textSize="28sp" />
 
-            <RadioGroup
-                android:id="@+id/radioGroup"
-                android:layout_gravity="center"
-                android:orientation="horizontal"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical">
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp">
-                <RadioButton
-                    android:id="@+id/radio1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
-                    android:text="@string/rupee" />
-                <RadioButton
-                    android:id="@+id/radio2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
-                    android:text="@string/rupee" />
-                <RadioButton
-                    android:id="@+id/radio3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
-                    android:text="@string/rupee" />
+                android:layout_gravity="center"
+                android:orientation="horizontal">
 
-                <RadioButton
-                    android:id="@+id/radio4"
-                    android:layout_width="wrap_content"
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/radio1"
+                    style="?attr/materialButtonOutlinedStyle"
+                    android:layout_width="80dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
-                    android:text="@string/rupee" />
-            </RadioGroup>
+                    android:layout_marginEnd="16dp"
+                    android:inset="0dp"
+                    android:maxWidth="4dp"
+                    android:paddingStart="0dp"
+                    android:paddingEnd="0dp"
+                    android:text="@string/rupee"
+                    android:textSize="18sp"
+                    app:cornerRadius="16dp"
+                    app:strokeColor="@color/primary_blue"
+                    app:strokeWidth="2dp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/radio2"
+                    style="?attr/materialButtonOutlinedStyle"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="0dp"
+                    android:layout_marginStart="16dp"
+                    android:inset="0dp"
+                    android:maxWidth="4dp"
+                    android:paddingStart="0dp"
+                    android:paddingEnd="0dp"
+                    android:text="@string/rupee"
+                    android:textSize="18sp"
+                    app:cornerRadius="16dp"
+                    app:strokeColor="@color/primary_blue"
+                    app:strokeWidth="2dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/radio3"
+                    style="?attr/materialButtonOutlinedStyle"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:inset="0dp"
+                    android:maxWidth="4dp"
+                    android:paddingStart="0dp"
+                    android:paddingEnd="0dp"
+                    android:text="@string/rupee"
+                    android:textSize="18sp"
+                    app:cornerRadius="16dp"
+                    app:strokeColor="@color/primary_blue"
+                    app:strokeWidth="2dp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/radio4"
+                    style="?attr/materialButtonOutlinedStyle"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="0dp"
+                    android:inset="0dp"
+                    android:maxWidth="4dp"
+                    android:paddingStart="0dp"
+                    android:paddingEnd="0dp"
+                    android:text="@string/rupee"
+                    android:textSize="18sp"
+                    app:cornerRadius="16dp"
+                    app:strokeColor="@color/primary_blue"
+                    app:strokeWidth="2dp" />
+            </LinearLayout>
+        </LinearLayout>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/add_amount"
@@ -120,11 +189,12 @@
             android:layout_marginTop="24dp"
             android:layout_marginBottom="24dp"
             android:drawableEnd="@drawable/ic_baseline_arrow_forward_24"
-            android:drawableTint="@color/purple_200"
+            android:drawableTint="@color/primary_blue"
             android:text="@string/add_funds"
-            android:textColor="@color/purple_200"
-            app:rippleColor="@color/purple_200"
-            app:strokeColor="@color/purple_200" />
+            android:textColor="@color/primary_blue"
+            app:rippleColor="@color/primary_blue"
+            app:strokeColor="@color/primary_blue"
+            app:strokeWidth="2dp" />
 
     </LinearLayout>
 

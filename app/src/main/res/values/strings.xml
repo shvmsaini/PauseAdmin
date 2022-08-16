@@ -9,7 +9,7 @@
     <string name="create_account">create account</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="login_back">Already have an account? Login instead</string>
-    <string name="add_task">Add task</string>
+    <string name="add_task">Add Task</string>
     <string name="new_task_icon">new task icon</string>
     <string name="name">Name</string>
     <string name="explain_task">Explain your task</string>
@@ -19,10 +19,10 @@
     <string name="withdraw_funds">Withdraw Funds</string>
     <string name="profile">Profile</string>
     <string name="rupee">₹ %1$d</string>
-    <string name="view_tasks">View tasks</string>
+    <string name="view_tasks">View Tasks</string>
     <string name="status">Status</string>
     <string name="done_date">Completed on</string>
-    <string name="response">Response:</string>
+    <string name="response">Response</string>
     <string name="state">No Tasks Found.</string>
     <string name="terms"><![CDATA[I accept terms & conditions]]></string>
     <string name="reminder">Send a reminder</string>

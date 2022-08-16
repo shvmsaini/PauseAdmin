@@ -1,6 +1,9 @@
-package com.pause.admin;
+package com.pause.admin.pojo;
 
-public class Task {
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
+public class Task implements Comparable<Task> {
     public String key;
     public String detail, deadline, response, doneDate, taskType, typeDetail;
 
@@ -76,5 +79,23 @@ public class Task {
 
     public void setDeadline(String deadline) {
         this.deadline = deadline;
+    }
+
+
+    @Override
+    public int compareTo(Task task) {
+        Task t1 = this;
+        boolean ddt1 = t1.getDoneDate() != null;
+        boolean ddt2 = task.getDoneDate() != null;
+        if (!ddt1 && !ddt2) {
+            LocalDate d1 = LocalDate.parse(t1.getDeadline(), DateTimeFormatter.ofPattern("dd/MM/yy"));
+            LocalDate d2 = LocalDate.parse(task.getDeadline(), DateTimeFormatter.ofPattern("dd/MM/yy"));
+            return d1.compareTo(d2); // Nearest Deadline first
+        }
+        if (!ddt1) return 1;
+        if (!ddt2) return -1;
+        LocalDate d1 = LocalDate.parse(t1.getDoneDate(), DateTimeFormatter.ofPattern("dd/MM/yy"));
+        LocalDate d2 = LocalDate.parse(task.getDoneDate(), DateTimeFormatter.ofPattern("dd/MM/yy"));
+        return d2.compareTo(d1); // Latest done task first
     }
 }

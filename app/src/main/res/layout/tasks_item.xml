@@ -8,6 +8,7 @@
     android:layout_margin="16dp"
     android:background="@drawable/input_background"
     android:backgroundTint="@color/secondary_blue"
+    android:animationCache="true"
     android:orientation="vertical"
     android:padding="16dp"
     tools:ignore="HardcodedText">
@@ -24,7 +25,7 @@
 
             <TextView
                 android:id="@+id/task_detail_sibling"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:paddingStart="0dp"
@@ -70,7 +71,8 @@
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
         android:orientation="horizontal"
-        android:weightSum="2">
+        android:weightSum="2"
+        android:baselineAligned="false">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -147,6 +149,14 @@
         android:id="@+id/task_response_parent"
         android:orientation="vertical"
         android:layout_width="match_parent"
+        android:background="@drawable/input_background"
+        android:backgroundTint="@color/secondary_blue"
+        android:animateLayoutChanges="true"
+        android:paddingStart="8dp"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
+        android:paddingEnd="8dp"
+        android:layout_gravity="center"
         android:layout_height="wrap_content">
 
         <TextView
@@ -157,12 +167,15 @@
             android:paddingEnd="8dp"
             android:text="@string/response"
             android:textColor="@color/white"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            app:drawableTint="@color/white"
+            app:drawableEndCompat="@drawable/ic_baseline_expand_more_24" />
 
         <TextView
             android:id="@+id/task_response"
             android:layout_width="wrap_content"
             android:text="https://dkfjsd.dsfsdkfj.fkjsdlf"
+            android:visibility="gone"
             android:layout_height="wrap_content"
             android:textColor="@color/white" />
 

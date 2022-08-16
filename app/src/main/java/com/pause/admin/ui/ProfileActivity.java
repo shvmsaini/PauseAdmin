@@ -1,11 +1,13 @@
-package com.pause.admin;
+package com.pause.admin.ui;
 
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
@@ -22,7 +24,9 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.pause.admin.R;
 import com.pause.admin.databinding.ProfileActivityBinding;
+import com.pause.admin.viewmodels.ProfileViewModel;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,9 +34,35 @@ import java.util.List;
 
 public class ProfileActivity extends AppCompatActivity {
     public ProfileActivityBinding binding;
+    public ProfileViewModel model;
 
-    public static void loadBarChart(ArrayList<BarEntry> yVals, ProfileActivityBinding binding,
-                                    ArrayList<String> xVals, String[] appNames, int maxSize) {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        super.onCreate(savedInstanceState);
+        model = new ViewModelProvider(this).get(ProfileViewModel.class);
+        initializeLayout();
+    }
+
+    private void initializeLayout() {
+        binding = ProfileActivityBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        binding.fundsHistory.setOnClickListener(v -> {
+            Intent i = new Intent(this, FundsHistoryActivity.class);
+            startActivity(i);
+        });
+        model.getAllUsage().observe(this, sb -> {
+            loadBarChart(sb.barEntries, sb.entriesDate, sb.appNames, sb.maxSize);
+            binding.progressCircular.setVisibility(View.GONE);
+            if (sb.barEntries.isEmpty()) {
+                binding.loading.setVisibility(View.VISIBLE);
+            }
+        });
+        binding.back.setOnClickListener(v -> super.onBackPressed());
+    }
+
+    private void loadBarChart(ArrayList<BarEntry> yVals, ArrayList<String> xVals, String[] appNames, int maxSize) {
         BarChart mChart = binding.stackedBar;
         /* Only Add colors as many as the maxSize */
         ArrayList<Integer> colors = new ArrayList<>();
@@ -86,26 +116,6 @@ public class ProfileActivity extends AppCompatActivity {
         mChart.setFitBars(true);
         mChart.getAxisRight().setEnabled(false);
         mChart.invalidate();
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        super.onCreate(savedInstanceState);
-        initializeLayout();
-    }
-
-    private void initializeLayout() {
-        binding = ProfileActivityBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
-        binding.fundsHistory.setOnClickListener(v -> {
-            Intent i = new Intent(this, FundsHistoryActivity.class);
-            startActivity(i);
-        });
-//        loadLineChart();
-//        loadBarChart();
-        HomeActivity.dbUtils.getAllUsage(this, binding);
-        binding.back.setOnClickListener(v -> super.onBackPressed());
     }
 
     private void loadLineChart() {

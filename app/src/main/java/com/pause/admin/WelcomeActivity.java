@@ -9,6 +9,8 @@ import android.widget.Button;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.pause.admin.ui.HomeActivity;
+
 public class WelcomeActivity extends AppCompatActivity {
     private final String LOGIN_KEY = "isLoggedIn";
     public Button loginButton;

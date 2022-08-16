@@ -13,13 +13,13 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationManagerCompat;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+import com.pause.admin.ui.TasksActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -77,7 +77,7 @@ public class PushNotificationService extends FirebaseMessagingService {
                     jsonObject, response -> Log.d(TAG, response.toString()),
                     error -> Log.e(TAG, "Unable to request")) {
                 @Override
-                public Map<String, String> getHeaders() throws AuthFailureError {
+                public Map<String, String> getHeaders() {
                     Map<String, String> params = new HashMap<>();
                     params.put("Content-Type", "application/json");
                     params.put("Authorization", SERVER_KEY);
@@ -97,6 +97,6 @@ public class PushNotificationService extends FirebaseMessagingService {
         // If you want to send messages to this application instance or
         // manage this apps subscriptions on the server side, send the
         // FCM registration token to your app server.
-        HomeActivity.dbUtils.postToken(token);
+        // HomeActivity.dbUtils.postToken(token);
     }
 }

@@ -1,4 +1,4 @@
-package com.pause.admin;
+package com.pause.admin.ui;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
@@ -8,8 +8,12 @@ import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
+import com.pause.admin.R;
 import com.pause.admin.databinding.NewTaskActivityBinding;
+import com.pause.admin.pojo.Task;
+import com.pause.admin.viewmodels.TasksViewModel;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -18,21 +22,22 @@ import java.util.Locale;
 public class NewTaskActivity extends AppCompatActivity {
     public final static Calendar myCalendar = Calendar.getInstance();
     public static SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yy", Locale.US);
-    final String UNATTENDED = "UNATTENDED";
     final String[] items = new String[]{"Location Type", "App Type", "Image Type"};
     public NewTaskActivityBinding binding;
+    private TasksViewModel tasksViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        binding = NewTaskActivityBinding.inflate(getLayoutInflater());
         super.onCreate(savedInstanceState);
-        setContentView(binding.getRoot());
+        tasksViewModel = new ViewModelProvider(this).get(TasksViewModel.class);
         initializeLayout();
     }
 
     private void initializeLayout() {
+        binding = NewTaskActivityBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         // spinner
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.spinner_item, items);
         binding.taskType.setAdapter(adapter);
 
         binding.taskType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -50,10 +55,7 @@ public class NewTaskActivity extends AppCompatActivity {
         });
 
         binding.addTask.setOnClickListener(view -> {
-            if (!isEmpty()) {
-                create();
-                finish();
-            }
+            if (!isEmpty()) create();
         });
 
         // date chooser
@@ -81,7 +83,11 @@ public class NewTaskActivity extends AppCompatActivity {
         final String type = binding.taskType.getSelectedItem().toString();
         final String typeDetail = binding.taskTypeDetail.getText().toString();
         Task t = new Task(details, deadline, type, typeDetail);
-        HomeActivity.dbUtils.postTask(t, this);
+
+        tasksViewModel.postTask(t).observe(this, bool -> {
+            if (bool) Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
+            else Toast.makeText(this, "Failure", Toast.LENGTH_SHORT).show();
+        });
     }
 
     public boolean isEmpty() {

@@ -14,16 +14,16 @@
         android:theme="@style/Theme.Admin"
         tools:targetApi="31">
         <activity
-            android:name=".ProfileActivity"
+            android:name=".ui.ProfileActivity"
             android:exported="false"
             android:launchMode="singleTop" />
         <activity
-            android:name=".NewTaskActivity"
+            android:name=".ui.NewTaskActivity"
             android:exported="false"
             android:launchMode="singleTop"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".HomeActivity"
+            android:name=".ui.HomeActivity"
             android:exported="true"
             android:launchMode="singleTop">
             <intent-filter>
@@ -32,7 +32,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".AddFundsActivity"
+            android:name=".ui.AddFundsActivity"
             android:exported="true"
             android:launchMode="singleTop" />
         <activity
@@ -48,7 +48,7 @@
             android:exported="true"
             android:launchMode="singleTop" />
         <activity
-            android:name=".TasksActivity"
+            android:name=".ui.TasksActivity"
             android:exported="true"
             android:launchMode="singleTop" />
         <activity
@@ -56,7 +56,7 @@
             android:exported="true"
             android:launchMode="singleTop" />
         <activity
-            android:name=".FundsHistoryActivity"
+            android:name=".ui.FundsHistoryActivity"
             android:exported="true"
             android:launchMode="singleTop" />
 

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/primary_blue"
     android:fitsSystemWindows="true"
-    tools:context=".NewTaskActivity">
+    tools:context=".ui.NewTaskActivity">
 
     <ImageView
         android:id="@+id/back"

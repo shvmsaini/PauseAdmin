@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/primary_blue"
-    tools:context=".ProfileActivity"
+    tools:context=".ui.ProfileActivity"
     tools:ignore="HardcodedText">
 
     <ImageView
@@ -69,7 +69,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_margin="16dp"
@@ -81,11 +81,38 @@
         app:layout_constraintTop_toBottomOf="@+id/funds_history">
         <com.github.mikephil.charting.charts.BarChart
             android:id="@+id/stackedBar"
-            android:layout_weight="1"
             android:layout_margin="8dp"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
+        <ProgressBar
+            android:id="@+id/progress_circular"
+            style="@style/Widget.MaterialComponents.CircularProgressIndicator"
+            android:layout_width="wrap_content"
+            android:indeterminate="true"
+            android:indeterminateTint="@color/white"
+            android:indeterminateTintMode="src_in"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:visibility="visible"
+            />
+        <TextView
+            android:id="@+id/loading"
+            style="@style/Widget.MaterialComponents.CircularProgressIndicator"
+            android:layout_width="wrap_content"
+            android:text="Unable to get data.\n Please try again later."
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:indeterminate="true"
+            android:indeterminateTint="@color/white"
+            android:indeterminateTintMode="src_in"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:visibility="gone"
+            />
         <!--        <com.github.mikephil.charting.charts.LineChart-->
         <!--            android:id="@+id/graph"-->
         <!--            android:layout_width="0dp"-->
@@ -96,6 +123,6 @@
         <!--            app:layout_constraintEnd_toEndOf="parent"-->
         <!--            app:layout_constraintStart_toStartOf="parent"-->
         <!--            app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />-->
-    </LinearLayout>
+    </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

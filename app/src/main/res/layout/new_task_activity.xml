@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/primary_blue"
     android:fitsSystemWindows="true"
-    tools:context=".NewTaskActivity">
+    tools:context=".ui.NewTaskActivity">
 
     <ImageView
         android:id="@+id/back"
@@ -25,20 +25,34 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="ContentDescription,RtlSymmetry,UseAppTint" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:text="@string/add_task"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/back"
+        app:layout_constraintStart_toStartOf="@+id/back"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="0dp"
         android:background="@drawable/shape"
         android:fitsSystemWindows="true"
         android:orientation="vertical"
         android:padding="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/back"
-        app:layout_constraintVertical_bias="1.0"
-        tools:layout_editor_absoluteX="16dp">
+        app:layout_constraintVertical_bias="1.0">
 
         <EditText
             android:id="@+id/task_detail"
@@ -62,16 +76,15 @@
             android:layout_height="45dp"
             android:layout_gravity="start"
             android:layout_marginTop="8dp"
-            android:background="@drawable/input_background"
+            android:background="@drawable/background_with_calender"
             android:foregroundGravity="center"
             android:gravity="center|start"
+            android:hint="@string/deadline"
             android:importantForAutofill="no"
             android:padding="8dp"
-            android:text="@string/deadline"
-            android:textColor="@color/material_on_background_disabled"
-            android:textSize="18sp"
-            app:drawableTint="@color/secondary_blue"
-            app:drawableEndCompat="@drawable/ic_baseline_calendar_today_24" />
+            android:textColor="@color/black"
+            android:textColorHint="@color/material_on_background_disabled"
+            android:textSize="18sp" />
 
         <Spinner
             android:id="@+id/task_type"
@@ -86,11 +99,12 @@
             android:layout_height="45dp"
             android:layout_marginTop="8dp"
             android:background="@drawable/input_background"
+            android:hint="@string/choose_type_first"
             android:importantForAutofill="no"
             android:inputType="text"
-            android:hint="@string/choose_type_first"
+            android:maxLength="50"
             android:padding="8dp"
-            android:textColor="@color/material_on_background_disabled"
+            android:textColor="@color/black"
             android:textSize="18sp" />
 
         <com.google.android.material.button.MaterialButton
@@ -102,11 +116,12 @@
             android:layout_marginTop="24dp"
             android:layout_marginBottom="24dp"
             android:drawableEnd="@drawable/ic_baseline_arrow_forward_24"
-            android:drawableTint="@color/purple_200"
+            android:drawableTint="@color/primary_blue"
             android:text="@string/add_task"
-            android:textColor="@color/purple_200"
-            app:rippleColor="@color/purple_200"
-            app:strokeColor="@color/purple_200" />
+            android:textColor="@color/primary_blue"
+            app:rippleColor="@color/primary_blue"
+            app:strokeColor="@color/primary_blue"
+            app:strokeWidth="2dp" />
 
     </LinearLayout>
 
