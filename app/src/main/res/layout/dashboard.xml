@@ -10,6 +10,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
+        android:maxHeight="100dp"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:background="@drawable/input_background"

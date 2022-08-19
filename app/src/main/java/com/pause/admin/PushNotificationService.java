@@ -84,7 +84,7 @@ public class PushNotificationService extends FirebaseMessagingService {
                     return params;
                 }
             };
-            Log.d(TAG, "pushNotification: to Token" + token);
+            Log.d(TAG, "pushNotification: to Token: " + token);
             queue.add(request); // send notification
         } catch (JSONException e) {
             e.printStackTrace();

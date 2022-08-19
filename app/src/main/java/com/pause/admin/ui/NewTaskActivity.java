@@ -65,9 +65,14 @@ public class NewTaskActivity extends AppCompatActivity {
             myCalendar.set(Calendar.DAY_OF_MONTH, day);
             updateLabel();
         };
-        binding.taskDeadline.setOnClickListener(view -> new DatePickerDialog(this, date,
-                myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-                myCalendar.get(Calendar.DAY_OF_MONTH)).show());
+
+        binding.taskDeadline.setOnClickListener(view -> {
+            DatePickerDialog dialog = new DatePickerDialog(this, date,
+                    myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                    myCalendar.get(Calendar.DAY_OF_MONTH));
+            dialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+            dialog.show();
+        });
 
         // back button
         binding.back.setOnClickListener(view -> NewTaskActivity.super.onBackPressed());

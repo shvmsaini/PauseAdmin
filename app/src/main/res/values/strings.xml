@@ -31,4 +31,8 @@
     <string name="no_funds_history">No Funds History.</string>
     <string name="how_much">How much would you like to add?</string>
     <string name="view_funds_history">View funds history</string>
+    <string name="view_history">View History</string>
+    <string name="disapprove">Disapprove</string>
+    <string name="disapproved">disapproved</string>
+    <string name="approved">Approved</string>
 </resources>

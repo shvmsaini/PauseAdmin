@@ -11,4 +11,6 @@
     <color name="primary_blue">#252847</color>
     <color name="secondary_blue">#343760</color>
     <color name="ternary_blue">#171829</color>
+    <color name="approve">#00897B</color>
+    <color name="disapprove">#E53935</color>
 </resources>

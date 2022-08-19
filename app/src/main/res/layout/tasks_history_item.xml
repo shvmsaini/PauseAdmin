@@ -6,9 +6,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="16dp"
+    android:animationCache="true"
     android:background="@drawable/input_background"
     android:backgroundTint="@color/secondary_blue"
-    android:animationCache="true"
     android:orientation="vertical"
     android:padding="16dp"
     tools:ignore="HardcodedText">
@@ -37,14 +37,14 @@
                 android:id="@+id/task_type_detail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/zero_blue"
+                android:layout_gravity="top"
                 android:background="@drawable/input_background"
+                android:backgroundTint="@color/zero_blue"
+                android:drawablePadding="4dp"
+                android:gravity="top"
                 android:padding="2dp"
                 android:paddingStart="4dp"
                 android:paddingEnd="4dp"
-                android:drawablePadding="4dp"
-                android:gravity="top"
-                android:layout_gravity="top"
                 android:text="Image Type"
                 android:textColor="@color/white"
                 app:drawableStartCompat="@drawable/ic_baseline_image_24"
@@ -70,15 +70,14 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
+        android:baselineAligned="false"
         android:orientation="horizontal"
-        android:weightSum="2"
-        android:baselineAligned="false">
+        android:weightSum="3">
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginEnd="4dp"
+            android:layout_gravity="start"
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical">
@@ -87,24 +86,31 @@
                 android:id="@+id/task_deadline_sibling"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:drawablePadding="4dp"
                 android:paddingStart="0dp"
                 android:paddingEnd="8dp"
-                android:drawablePadding="4dp"
-                app:drawableStartCompat="@drawable/ic_baseline_calendar_today_12"
-                app:drawableTint="@color/white"
                 android:text="Deadline"
-                android:textColor="@color/white" />
+                android:textColor="@color/white"
+                app:drawableStartCompat="@drawable/ic_baseline_calendar_today_12"
+                app:drawableTint="@color/white" />
 
-            <TextView
-                android:id="@+id/task_deadline"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="16 September, 2017"
-                android:textColor="@color/white"
-                android:textSize="16sp"
-                android:textStyle="bold"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="vertical">
 
-                />
+                <TextView
+                    android:id="@+id/task_deadline"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="16 Sept, 17"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
         </LinearLayout>
 
         <LinearLayout
@@ -112,7 +118,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginStart="4dp"
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical">
@@ -122,42 +127,71 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawablePadding="4dp"
-                app:drawableStartCompat="@drawable/ic_baseline_calendar_today_12"
-                app:drawableTint="@color/white"
                 android:paddingStart="0dp"
                 android:paddingEnd="8dp"
                 android:text="@string/done_date"
-                android:textColor="@color/white" />
+                android:textColor="@color/white"
+                app:drawableStartCompat="@drawable/ic_baseline_calendar_today_12"
+                app:drawableTint="@color/white" />
 
             <TextView
                 android:id="@+id/done_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawablePadding="4dp"
-                android:text="16 September, 2017"
+                android:text="16 Sept, 17"
                 android:textColor="@color/white"
                 android:textSize="16sp"
-                android:textStyle="bold"
-                />
+                android:textStyle="bold" />
 
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/task_attended_sibling"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="4dp"
+                android:paddingStart="0dp"
+                android:paddingEnd="8dp"
+                android:text="Approved on"
+                android:textColor="@color/white"
+                app:drawableStartCompat="@drawable/ic_baseline_calendar_today_12"
+                app:drawableTint="@color/white" />
+
+            <TextView
+                android:id="@+id/task_attended"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="16 Sept, 17"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+        </LinearLayout>
 
     </LinearLayout>
 
+
     <LinearLayout
         android:id="@+id/task_response_parent"
-        android:orientation="vertical"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:animateLayoutChanges="true"
         android:background="@drawable/input_background"
         android:backgroundTint="@color/secondary_blue"
-        android:animateLayoutChanges="true"
+        android:orientation="vertical"
         android:paddingStart="8dp"
         android:paddingTop="2dp"
-        android:paddingBottom="2dp"
         android:paddingEnd="8dp"
-        android:layout_gravity="center"
-        android:layout_height="wrap_content">
+        android:paddingBottom="2dp">
 
         <TextView
             android:id="@+id/task_response_sibling"
@@ -168,51 +202,17 @@
             android:text="@string/response"
             android:textColor="@color/white"
             android:textStyle="bold"
-            app:drawableTint="@color/white"
-            app:drawableEndCompat="@drawable/ic_baseline_expand_more_24" />
+            app:drawableEndCompat="@drawable/ic_baseline_expand_more_24"
+            app:drawableTint="@color/white" />
 
         <TextView
             android:id="@+id/task_response"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="https://dkfjsd.dsfsdkfj.fkjsdlf"
-            android:visibility="gone"
-            android:layout_height="wrap_content"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            android:visibility="gone" />
 
     </LinearLayout>
 
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="8dp"
-        android:orientation="horizontal">
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/approve"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:backgroundTint="@color/approve"
-            android:text="Approve" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/disapprove"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_weight="1"
-            android:text="Disapprove"
-            app:backgroundTint="@color/disapprove" />
-    </LinearLayout>
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/reminder"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:backgroundTint="#F0495095"
-        android:text="@string/reminder"
-        app:cornerRadius="100sp" />
 </LinearLayout>

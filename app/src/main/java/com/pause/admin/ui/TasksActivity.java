@@ -1,11 +1,15 @@
 package com.pause.admin.ui;
 
+import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
+import android.view.MenuInflater;
 import android.view.View;
-import android.widget.Button;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -18,8 +22,6 @@ import com.pause.admin.R;
 import com.pause.admin.adapters.TasksDisplayAdapter;
 import com.pause.admin.databinding.TasksActivityBinding;
 import com.pause.admin.viewmodels.TasksViewModel;
-
-import org.w3c.dom.Text;
 
 import java.util.Collections;
 
@@ -49,12 +51,13 @@ public class TasksActivity extends AppCompatActivity {
         FirebaseMessaging.getInstance().getToken().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 String newToken = task.getResult();
-                if (!newToken.equals(parentToken)) {
-                    editor.putString(PARENT_TOKEN_KEY, newToken).apply(); // store in prefs
-                    parentToken = newToken; // set token application wide
-                    model.postToken(newToken); // send to db
-                }
                 Log.d(TAG, "Parent token = " + newToken);
+                //if (!newToken.equals(parentToken)) {
+                parentToken = newToken; // set token application wide
+                model.postToken(newToken); // send to db
+                Log.d(TAG, "Storing token is prefs");
+                editor.putString(PARENT_TOKEN_KEY, newToken).apply(); // store in prefs
+                //}
             }
         });
         // get child token
@@ -81,8 +84,10 @@ public class TasksActivity extends AppCompatActivity {
             binding.progressCircular.setVisibility(View.GONE);
             if (tasks.isEmpty()) binding.emptyView.setVisibility(View.VISIBLE);
             else binding.buttonsParent.setVisibility(View.VISIBLE);
-            TasksDisplayAdapter unattAdapter = new TasksDisplayAdapter(this, adapter.unattended, tasksActivity, model);
-            TasksDisplayAdapter attAdapter = new TasksDisplayAdapter(this, adapter.attended, tasksActivity, model);
+            TasksDisplayAdapter unattAdapter = new TasksDisplayAdapter(this,
+                    adapter.unattended, tasksActivity, model);
+            TasksDisplayAdapter attAdapter = new TasksDisplayAdapter(this,
+                    adapter.attended, tasksActivity, model);
             // attended
             binding.attended.setOnClickListener(v -> {
                 clearColorsExpectOne(binding.attended);
@@ -100,6 +105,21 @@ public class TasksActivity extends AppCompatActivity {
                 clearColorsExpectOne(binding.unattended);
                 binding.recyclerView.setAdapter(unattAdapter);
             });
+        });
+
+        // view history
+        binding.more.setOnClickListener(v -> {
+            //onCreateOptionsMenu((Menu) binding.more);
+            Context wrapper = new ContextThemeWrapper(this, R.style.PopupMenu);
+            PopupMenu popupMenu = new PopupMenu(wrapper, v);
+            MenuInflater inflater = popupMenu.getMenuInflater();
+            inflater.inflate(R.menu.task_activity_menu, popupMenu.getMenu());
+            popupMenu.getMenu().getItem(0).setOnMenuItemClickListener(menuItem -> {
+                Intent i = new Intent(this, TasksHistoryActivity.class);
+                startActivity(i);
+                return true;
+            });
+            popupMenu.show();
         });
 
         // back button

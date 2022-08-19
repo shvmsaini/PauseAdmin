@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/primary_blue"
+    tools:context=".ui.TasksHistoryActivity"
     tools:ignore="HardcodedText">
 
     <ImageView
@@ -24,21 +25,6 @@
         app:tint="@color/white"
         tools:ignore="ContentDescription,RtlSymmetry" />
 
-    <ImageView
-        android:id="@+id/more"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:backgroundTint="@color/white"
-        android:clickable="true"
-        android:foregroundTint="@color/white"
-        android:padding="16dp"
-        android:src="@drawable/ic_baseline_more_vert_24"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintTop_toTopOf="parent"
-        app:tint="@color/white"
-        tools:ignore="ContentDescription,RtlSymmetry" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
@@ -48,7 +34,7 @@
         android:paddingBottom="48dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/back"
-        tools:listitem="@layout/tasks_item" />
+        tools:listitem="@layout/tasks_history_item" />
 
     <TextView
         android:id="@+id/empty_view"
@@ -94,7 +80,7 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <TextView
-            android:id="@+id/attended"
+            android:id="@+id/approved"
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -103,7 +89,7 @@
             android:minHeight="0dp"
             android:paddingStart="8dp"
             android:paddingEnd="4dp"
-            android:text="Attended"
+            android:text="@string/approved"
             android:textColor="@color/white"
             app:rippleColor="@color/zero_blue" />
 
@@ -121,7 +107,7 @@
             android:textColor="@color/primary_blue" />
 
         <TextView
-            android:id="@+id/unattended"
+            android:id="@+id/disapproved"
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -129,9 +115,8 @@
             android:minHeight="0dp"
             android:paddingStart="4dp"
             android:paddingEnd="8dp"
-            android:text="UNATTENDED"
+            android:text="@string/disapproved"
             android:textColor="@color/white" />
     </LinearLayout>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

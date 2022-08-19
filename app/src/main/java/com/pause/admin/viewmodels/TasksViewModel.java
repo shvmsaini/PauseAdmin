@@ -30,6 +30,7 @@ public class TasksViewModel extends ViewModel {
     }
 
     public MutableLiveData<Boolean> postTask(Task t) {
+        flag = new MutableLiveData<>();
         postTaskHelper(t);
         return flag;
     }
@@ -88,18 +89,30 @@ public class TasksViewModel extends ViewModel {
         return tok;
     }
 
-    public void deleteTask(String KEY, TasksDisplayAdapter adapter, int position) {
-        DatabaseReference ref = database.getReference("tasks").child(KEY);
+    /**
+     * Delete task and add to tasks history
+     */
+    public void deleteTask(TasksDisplayAdapter adapter, int position, Task t) {
+        DatabaseReference ref = database.getReference("tasks").child(t.getKEY());
         ref.removeValue();
+        postTaskHistory(t);
         adapter.notifyItemRemoved(position);
+    }
+
+    public void postTaskHistory(Task t) {
+        DatabaseReference ref = database.getReference("tasks_history").push();
+        ref.setValue(t).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                Log.d(TAG, "postTaskHistory: Task History posted");
+            } else Log.e(TAG, "postTaskHistory: Unable to post task history", task.getException());
+        });
     }
 
     public void postToken(String token) {
         DatabaseReference ref = database.getReference("token/parent");
         ref.setValue(token).addOnCompleteListener(task -> {
-            if (!task.isSuccessful()) {
-                Log.e(TAG, "postToken: ", task.getException());
-            }
+            if (task.isSuccessful()) Log.e(TAG, "postToken: Token posted");
+            else Log.e(TAG, "postToken: ", task.getException());
         });
     }
 

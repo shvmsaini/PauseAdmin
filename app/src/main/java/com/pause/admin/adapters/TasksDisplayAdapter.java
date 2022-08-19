@@ -24,10 +24,14 @@ import com.pause.admin.ui.HomeActivity;
 import com.pause.admin.ui.TasksActivity;
 import com.pause.admin.viewmodels.TasksViewModel;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -67,10 +71,15 @@ public class TasksDisplayAdapter extends RecyclerView.Adapter<TasksDisplayAdapte
     public void onBindViewHolder(@NonNull TasksDisplayAdapter.ItemViewHolder holder, int position) {
         Task t = tasks.get(position);
         holder.taskDetail.setText(t.getDetail());
+        // Deadline
         LocalDate date = LocalDate.parse(t.getDeadline(), DateTimeFormatter.ofPattern("dd/MM/yy"));
         String deadline = DateTimeFormatter.ofPattern("d MMMM, yyyy").format(date);
         holder.deadline.setText(deadline);
-        holder.taskType.setText(t.getTaskType());
+
+        // Today's date = Attended Date
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yy", Locale.US);
+        String attended_date = dateFormat.format(new Date());
+
         if (t.getTaskType().equals("Location Type"))
             holder.taskType.setCompoundDrawablesWithIntrinsicBounds(
                     R.drawable.ic_baseline_location_on_24, 0, 0, 0);
@@ -98,6 +107,12 @@ public class TasksDisplayAdapter extends RecyclerView.Adapter<TasksDisplayAdapte
                 Toast.makeText(context, "Sent!", Toast.LENGTH_SHORT).show();
             });
         } else {
+            // Complete on
+            date = LocalDate.parse(t.getDoneDate(), DateTimeFormatter.ofPattern("dd/MM/yy"));
+            String doneDate = DateTimeFormatter.ofPattern("d MMMM, yyyy").format(date);
+            holder.doneDate.setText(doneDate);
+
+            holder.taskType.setText(t.getTaskType());
             holder.reminder.setVisibility(View.GONE);
             holder.taskType.setBackgroundTintList(ContextCompat.getColorStateList(context, R.color.secondary_blue));
             holder.itemView.setBackgroundTintList(ContextCompat.getColorStateList(context, R.color.zero_blue));
@@ -114,22 +129,24 @@ public class TasksDisplayAdapter extends RecyclerView.Adapter<TasksDisplayAdapte
                             R.drawable.ic_baseline_expand_more_24, 0);
                 }
             });
-            date = LocalDate.parse(t.getDoneDate(), DateTimeFormatter.ofPattern("dd/MM/yy"));
-            String doneDate = DateTimeFormatter.ofPattern("d MMMM, yyyy").format(date);
-            holder.doneDate.setText(doneDate);
+
             holder.approve.setOnClickListener(view -> {
                 Log.d(TAG, "onBindViewHolder: Task Approved");
+                t.setAttendedDate(attended_date);
+                t.setStatus("1");
                 model.postPoint().observe((LifecycleOwner) context, bool -> {
                     if (bool)
                         Toast.makeText(context, "Reward unlocked!", Toast.LENGTH_SHORT).show();
                     else
                         Toast.makeText(context, "Something's wrong. Try again later.", Toast.LENGTH_SHORT).show();
                 });
-                model.deleteTask(t.getKEY(), tasksActivity.adapter, position);
+                model.deleteTask(tasksActivity.adapter, position, t);
             });
             holder.disapprove.setOnClickListener(view -> {
+                t.setAttendedDate(attended_date);
+                t.setStatus("0");
                 Log.d(TAG, "onBindViewHolder: Task Disapproved");
-                model.deleteTask(t.getKEY(), tasksActivity.adapter, position);
+                model.deleteTask(tasksActivity.adapter, position, t);
             });
 
         }

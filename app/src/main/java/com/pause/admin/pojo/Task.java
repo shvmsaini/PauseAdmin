@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class Task implements Comparable<Task> {
-    public String key;
+    private String key, attendedDate, status;
     public String detail, deadline, response, doneDate, taskType, typeDetail;
 
     public Task(String detail, String deadline, String taskType, String typeDetail) {
@@ -97,5 +97,21 @@ public class Task implements Comparable<Task> {
         LocalDate d1 = LocalDate.parse(t1.getDoneDate(), DateTimeFormatter.ofPattern("dd/MM/yy"));
         LocalDate d2 = LocalDate.parse(task.getDoneDate(), DateTimeFormatter.ofPattern("dd/MM/yy"));
         return d2.compareTo(d1); // Latest done task first
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getAttendedDate() {
+        return attendedDate;
+    }
+
+    public void setAttendedDate(String attendedDate) {
+        this.attendedDate = attendedDate;
     }
 }
