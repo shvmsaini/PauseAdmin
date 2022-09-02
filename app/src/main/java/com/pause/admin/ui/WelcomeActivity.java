@@ -1,4 +1,4 @@
-package com.pause.admin;
+package com.pause.admin.ui;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,29 +9,25 @@ import android.widget.Button;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.pause.admin.ui.HomeActivity;
+import com.pause.admin.R;
 
 public class WelcomeActivity extends AppCompatActivity {
-    private final String LOGIN_KEY = "isLoggedIn";
+    public final static String LOGIN_KEY = "isLoggedIn";
     public Button loginButton;
     public Button signupButton;
     public SharedPreferences.Editor editor;
-    private boolean loggedIn = false;
-    private SharedPreferences prefs;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //TODO: if user already logged in directly went to the homeActivity
-        prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         editor = prefs.edit();
-        loggedIn = prefs.getBoolean(LOGIN_KEY, false);
-        // TODO: create launcher activity to avoid showing this activity when already logged in
-        if (true) {
+        boolean loggedIn = prefs.getBoolean(LOGIN_KEY, false);
+        if (loggedIn) {
             Intent i = new Intent(this, HomeActivity.class);
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(i);
-            return;
+            finish();
         }
         initializeLayout();
     }

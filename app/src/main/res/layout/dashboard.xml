@@ -119,6 +119,23 @@
             app:drawableEndCompat="@drawable/ic_baseline_arrow_forward_24"
             app:drawableTint="@color/white" />
 
+        <TextView
+            android:id="@+id/lock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="8dp"
+            android:gravity="center"
+            android:paddingStart="8dp"
+            android:paddingEnd="0dp"
+            android:text="@string/lock"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:drawableStartCompat="@drawable/baseline_lock_24"
+            app:drawableTint="@color/white" />
+
     </RelativeLayout>
 
     <LinearLayout

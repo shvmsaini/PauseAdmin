@@ -4,22 +4,34 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginActivity">
+    tools:context=".ui.LoginActivity"
+    android:background="@color/primary_blue">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        android:background="@drawable/shape_blue"
+        android:id="@+id/fortop"
+        tools:ignore="MissingConstraints">
+
+
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:fontFamily="serif"
-        android:text="@string/app_name"
-        android:textColor="@color/black"
-        android:textSize="50sp"
+        android:text="Admin Login"
+        android:textColor="@color/white"
+        android:textSize="40sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="HardcodedText" />
 
     <LinearLayout
         android:id="@+id/linearLayout2"
@@ -63,35 +75,50 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/loginButton"
-            style="?attr/materialButtonOutlinedStyle"
             android:layout_width="253dp"
             android:layout_height="50dp"
             android:layout_marginTop="32dp"
             android:width="2dp"
             android:drawableEnd="@drawable/ic_baseline_arrow_forward_24"
-            android:drawableTint="@color/purple_200"
+            android:drawableTint="@color/white"
             android:text="@string/login"
-            app:rippleColor="@color/purple_200"
-            android:textColor="@color/purple_200"
+            android:textColor="@color/white"
+            app:backgroundTintMode="add"
+            app:backgroundTint="@null"
+            android:background="@drawable/diff_style_btn"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/password_for_login"
-            app:layout_constraintVertical_bias="0.075"
-            app:strokeColor="@color/purple_200" />
+            app:layout_constraintVertical_bias="0.075" />
+
     </LinearLayout>
+
 
     <TextView
         android:id="@+id/signup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:textColor="@color/white"
         android:text="@string/signup_text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="102dp"
+        android:layout_height="102dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/logo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/avatar"
+        tools:ignore="ContentDescription" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

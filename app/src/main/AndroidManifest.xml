@@ -10,7 +10,7 @@
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/Theme.Admin"
         tools:targetApi="31">
@@ -30,26 +30,27 @@
             android:name=".ui.HomeActivity"
             android:exported="true"
             android:launchMode="singleTop">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".ui.AddFundsActivity"
             android:exported="true"
             android:launchMode="singleTop" />
         <activity
-            android:name=".WelcomeActivity"
+            android:name=".ui.WelcomeActivity"
+            android:exported="true"
+            android:launchMode="singleTop">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.LoginActivity"
             android:exported="true"
             android:launchMode="singleTop" />
         <activity
-            android:name=".LoginActivity"
-            android:exported="true"
-            android:launchMode="singleTop" />
-        <activity
-            android:name=".SignupActivity"
+            android:name=".ui.SignupActivity"
             android:exported="true"
             android:launchMode="singleTop" />
         <activity
@@ -66,12 +67,24 @@
             android:launchMode="singleTop" />
 
         <service
-            android:name=".PushNotificationService"
+            android:name=".service.PushNotificationService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
+        <receiver
+            android:name=".service.locker"
+            android:exported="true"
+            android:permission="android.permission.BIND_DEVICE_ADMIN">
+            <meta-data
+                android:name="android.app.device_admin"
+                android:resource="@xml/policies" />
+            <intent-filter>
+                <action android:name="android.app.action.DEVICE_ADMIN_ENABLED" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

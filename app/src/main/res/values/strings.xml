@@ -6,7 +6,7 @@
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="signup_text">Don\'t have an account? Signup instead</string>
-    <string name="create_account">create account</string>
+    <string name="create_account">Create An Account</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="login_back">Already have an account? Login instead</string>
     <string name="add_task">Add Task</string>
@@ -35,4 +35,7 @@
     <string name="disapprove">Disapprove</string>
     <string name="disapproved">disapproved</string>
     <string name="approved">Approved</string>
+    <string name="welcome_header">Control your children phone with your phone" </string>
+    <string name="welcome_text"> Add money as pocket money and give to your children when they complete a task.</string>
+    <string name="lock">LOCK</string>
 </resources>

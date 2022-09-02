@@ -194,7 +194,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:backgroundTint="@color/approve"
+            app:backgroundTint="@null"
+            android:background="@drawable/success_btn"
             android:text="Approve" />
 
         <com.google.android.material.button.MaterialButton
@@ -204,7 +205,8 @@
             android:layout_marginStart="8dp"
             android:layout_weight="1"
             android:text="Disapprove"
-            app:backgroundTint="@color/disapprove" />
+            app:backgroundTint="@null"
+            android:background="@drawable/danger_btn" />
     </LinearLayout>
 
     <com.google.android.material.button.MaterialButton

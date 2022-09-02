@@ -1,8 +1,10 @@
-package com.pause.admin;
+package com.pause.admin.ui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
@@ -33,12 +35,32 @@ public class LoginActivity extends AppCompatActivity {
         signupSpan.setSpan(new ClickableSpan() {
             @Override
             public void onClick(@NonNull View view) {
-                Intent signupIntent = new Intent(LoginActivity.this, SignupActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                Intent signupIntent = new Intent(LoginActivity.this, SignupActivity.class)
+                        .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(signupIntent);
             }
         }, 23, 29, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
         binding.signup.setText(signupSpan);
         binding.signup.setMovementMethod(LinkMovementMethod.getInstance());
+        binding.loginButton.setOnClickListener(v -> {
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+            String email = binding.emailForLogin.getText().toString();
+            String pass = binding.passwordForLogin.getText().toString();
+            String emailOnPrefs = preferences.getString("email", "");
+            String passOnPrefs = preferences.getString("pass", "");
+            SharedPreferences.Editor edit = preferences.edit();
+            edit.putBoolean(WelcomeActivity.LOGIN_KEY, true);
+            edit.apply();
+
+            if (!email.equals(emailOnPrefs) || !pass.equals(passOnPrefs)) {
+                Toast.makeText(this, "User not found", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
+            Intent i = new Intent(this, HomeActivity.class);
+            startActivity(i);
+            finish();
+        });
     }
 
     @Override
@@ -48,12 +70,10 @@ public class LoginActivity extends AppCompatActivity {
             super.onBackPressed();
             return;
         }
-        if (back_pressed + TIME_DELAY > System.currentTimeMillis()) {
+        if (back_pressed + TIME_DELAY > System.currentTimeMillis())
             super.onBackPressed();
-        } else {
-            Toast.makeText(getBaseContext(), "Press once again to exit!",
-                    Toast.LENGTH_SHORT).show();
-        }
+        else Toast.makeText(getBaseContext(), "Press once again to exit!",
+                Toast.LENGTH_SHORT).show();
         back_pressed = System.currentTimeMillis();
     }
 }

@@ -57,15 +57,16 @@ public class TasksActivity extends AppCompatActivity {
                 model.postToken(newToken); // send to db
                 Log.d(TAG, "Storing token is prefs");
                 editor.putString(PARENT_TOKEN_KEY, newToken).apply(); // store in prefs
+                childToken = newToken;
                 //}
             }
         });
-        // get child token
-        model.getChildToken().observe(this, str -> {
-            TasksActivity.childToken = str;
-            prefs.edit().putString(CHILD_TOKEN_KEY, str).apply();
-            Log.d(TAG, "getChildToken: Success, childToken:" + str);
-        });
+//        // get child token
+//        model.getChildToken().observe(this, str -> {
+//            TasksActivity.childToken = str;
+//            prefs.edit().putString(CHILD_TOKEN_KEY, str).apply();
+//            Log.d(TAG, "getChildToken: Success, childToken:" + str);
+//        });
 
         initializeLayout();
     }

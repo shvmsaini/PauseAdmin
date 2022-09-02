@@ -4,8 +4,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class Task implements Comparable<Task> {
-    private String key, attendedDate, status;
     public String detail, deadline, response, doneDate, taskType, typeDetail;
+    private String key, attendedDate, status;
 
     public Task(String detail, String deadline, String taskType, String typeDetail) {
         this.detail = detail;

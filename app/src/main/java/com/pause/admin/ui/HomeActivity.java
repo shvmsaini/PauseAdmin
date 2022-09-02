@@ -1,7 +1,12 @@
 package com.pause.admin.ui;
 
+import android.app.Activity;
+import android.app.ActivityManager;
+import android.app.admin.DevicePolicyManager;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -24,18 +29,22 @@ import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.firebase.database.FirebaseDatabase;
-import com.pause.admin.PushNotificationService;
 import com.pause.admin.R;
 import com.pause.admin.databinding.DashboardBinding;
+import com.pause.admin.service.PushNotificationService;
+import com.pause.admin.service.locker;
+import com.pause.admin.viewmodels.AirtableSpecific;
 import com.pause.admin.viewmodels.FundsViewModel;
 import com.pause.admin.viewmodels.HomeViewModel;
 import com.razorpay.Checkout;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class HomeActivity extends AppCompatActivity {
     public static final int TIME_DELAY = 2000;
     public static final FirebaseDatabase database = FirebaseDatabase.getInstance();
+    public static final int RESULT_ENABLE = 11;
     private static final String TAG = HomeActivity.class.getSimpleName();
     public static long back_pressed;
     public static PushNotificationService notificationService;
@@ -43,13 +52,6 @@ public class HomeActivity extends AppCompatActivity {
     public FundsViewModel fundsViewModel;
     public HomeViewModel homeViewModel;
     private SharedPreferences prefs;
-    /*
-    > Funds Button
-    > Add Fund Page UI
-    > Add Task UI
-    > Chk for Google Map integration
-    > View Task UI
-    */
     public final ActivityResultLauncher<Intent> addFundsResult = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
         @Override
         public void onActivityResult(ActivityResult result) {
@@ -63,6 +65,9 @@ public class HomeActivity extends AppCompatActivity {
             }
         }
     });
+    private DevicePolicyManager devicePolicyManager;
+    private ActivityManager activityManager;
+    private ComponentName compName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +77,32 @@ public class HomeActivity extends AppCompatActivity {
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
         homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         fundsViewModel = new ViewModelProvider(this).get(FundsViewModel.class);
+        devicePolicyManager = (DevicePolicyManager) getSystemService(DEVICE_POLICY_SERVICE);
+        activityManager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
+        compName = new ComponentName(this, locker.class);
         layoutInitialize();
+
+        PackageManager packageManager = getPackageManager();
+        Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
+        mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+
+//        List<ResolveInfo> appList = packageManager.queryIntentActivities(mainIntent, 0);
+//        appList.sort(new ResolveInfo.DisplayNameComparator(packageManager));
+//        List<PackageInfo> packs = packageManager.getInstalledPackages(0);
+//        for (int i = 0; i < packs.size(); i++) {
+//            PackageInfo p = packs.get(i);
+//            ApplicationInfo a = p.applicationInfo;
+//            // skip system apps if they shall not be included
+//            if ((a.flags & ApplicationInfo.FLAG_SYSTEM) == 1) {
+//                continue;
+//            }
+//            Intent intent = new Intent();
+//            intent.setComponent(new ComponentName("com.myapp", "com.myapp.launcher.settings"));
+//            ResolveInfo app = packageManager.resolveActivity(intent, 0);
+//            packageManager.resolveActivity();
+//            appList.add(app);
+//        }
+
     }
 
     private void layoutInitialize() {
@@ -99,6 +129,23 @@ public class HomeActivity extends AppCompatActivity {
             startActivity(i);
         });
 
+        binding.lock.setOnClickListener(v -> {
+            Log.d(TAG, "layoutInitialize: Clicked on lock");
+            boolean active = devicePolicyManager.isAdminActive(compName);
+            if (active) {
+                devicePolicyManager.lockNow();
+                return;
+            } else {
+                Toast.makeText(this, "You need to enable the Admin Device Features", Toast.LENGTH_SHORT).show();
+            }
+            Intent intent = new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
+            intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, compName);
+            intent.putExtra(DevicePolicyManager.EXTRA_ADD_EXPLANATION,
+                    "Additional text explaining why we need this permission");
+            startActivityForResult(intent, RESULT_ENABLE);
+
+        });
+
         //get funds from preferences
         String funds = prefs.getString("FUNDS", "0");
         binding.funds.setText(String.format(this.getResources().getString(R.string.funds), funds));
@@ -114,12 +161,28 @@ public class HomeActivity extends AppCompatActivity {
         });
 
         binding.imageButton.setOnClickListener(v -> binding.profile.performClick());
+
         binding.more.setOnClickListener(v -> binding.profile.performClick());
-        homeViewModel.getUsage().observe(this, entries -> {
+        AirtableSpecific specific = new ViewModelProvider(this).get(AirtableSpecific.class);
+        specific.getUsage(this).observe(this, task -> {
+            ArrayList<PieEntry> entries = new ArrayList<>();
+            entries.add(new PieEntry(Float.parseFloat(Objects.requireNonNull(task.get("whatsapp")).toString()), "WhatsApp"));
+            entries.add(new PieEntry(Float.parseFloat(Objects.requireNonNull(task.get("instagram")).toString()), "Instagram"));
+            entries.add(new PieEntry(Float.parseFloat(Objects.requireNonNull(task.get("others")).toString()), "Others"));
+            entries.add(new PieEntry(Float.parseFloat(Objects.requireNonNull(task.get("chrome")).toString()), "Chrome"));
+            entries.add(new PieEntry(Float.parseFloat(Objects.requireNonNull(task.get("youtube")).toString()), "Youtube"));
+
+            Log.d(TAG, "layoutInitialize: " + entries);
             binding.graph.setVisibility(View.VISIBLE);
             binding.progressCircular.setVisibility(View.GONE);
             loadPieChart(entries);
         });
+
+//        homeViewModel.getUsage().observe(this, entries -> {
+//            binding.graph.setVisibility(View.VISIBLE);
+//            binding.progressCircular.setVisibility(View.GONE);
+//            loadPieChart(entries);
+//        });
     }
 
     public void loadPieChart(ArrayList<PieEntry> entries) {
@@ -170,5 +233,18 @@ public class HomeActivity extends AppCompatActivity {
         }
         Toast.makeText(this, "Press once again to exit!", Toast.LENGTH_SHORT).show();
         back_pressed = System.currentTimeMillis();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == RESULT_ENABLE) {
+            if (resultCode == Activity.RESULT_OK) {
+                Toast.makeText(HomeActivity.this, "You have enabled the Admin Device features", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(HomeActivity.this, "Problem to enable the Admin Device features", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

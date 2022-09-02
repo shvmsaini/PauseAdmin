@@ -5,19 +5,14 @@ import android.view.View;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.util.Pair;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.google.android.gms.tasks.Tasks;
 import com.pause.admin.R;
 import com.pause.admin.adapters.TasksHistoryDisplayAdapter;
 import com.pause.admin.databinding.TasksHistoryActivityBinding;
-import com.pause.admin.pojo.Task;
 import com.pause.admin.viewmodels.TasksHistoryViewModel;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.Collections;
 
 public class TasksHistoryActivity extends AppCompatActivity {

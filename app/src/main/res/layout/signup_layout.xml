@@ -4,16 +4,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:importantForAutofill="no">
+    android:importantForAutofill="no"
+    android:background="@color/primary_blue">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="102dp"
+        android:layout_height="102dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/logo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/avatar" />
 
     <TextView
         android:id="@+id/logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="serif"
-        android:text="@string/app_name"
-        android:textColor="@color/black"
-        android:textSize="50sp"
+        android:text="Admin Sign up"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/white"
+        android:textSize="40sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/name_for_signup"
         app:layout_constraintEnd_toEndOf="parent"
@@ -28,6 +41,7 @@
         android:layout_marginBottom="8dp"
         android:paddingStart="4dp"
         android:paddingEnd="4dp"
+        android:textColor="@color/white"
         android:text="@string/create_account"
         app:layout_constraintBottom_toTopOf="@+id/name_for_signup"
         app:layout_constraintEnd_toEndOf="@+id/name_for_signup"
@@ -115,16 +129,16 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/signup_button"
-        style="?attr/materialButtonOutlinedStyle"
-        app:strokeColor="@color/purple_200"
-        android:textColor="@color/purple_200"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:layout_width="253dp"
+        android:layout_height="50dp"
         android:layout_marginBottom="56dp"
         android:text="@string/signup"
+        app:backgroundTint="@null"
+        app:backgroundTintMode="add"
+        android:background="@drawable/diff_style_btn"
         android:drawableEnd="@drawable/ic_baseline_arrow_forward_24"
-        android:drawableTint="@color/purple_200"
-        app:rippleColor="@color/purple_200"
+        android:drawableTint="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/login_back"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -133,6 +147,7 @@
 
     <TextView
         android:id="@+id/login_back"
+        android:textColor="@color/white"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/login_back"

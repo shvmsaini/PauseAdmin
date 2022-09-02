@@ -19,8 +19,8 @@
         <entry key="app/src/main/res/drawable/shape.xml" value="0.16" />
         <entry key="app/src/main/res/drawable/spinner_bg.xml" value="0.12" />
         <entry key="app/src/main/res/drawable/spinner_item.xml" value="0.1845" />
-        <entry key="app/src/main/res/layout/add_funds_activity.xml" value="0.2" />
-        <entry key="app/src/main/res/layout/dashboard.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/add_funds_activity.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/dashboard.xml" value="0.22" />
         <entry key="app/src/main/res/layout/funds_activity.xml" value="0.22" />
         <entry key="app/src/main/res/layout/funds_item.xml" value="0.33" />
         <entry key="app/src/main/res/layout/login_activity.xml" value="0.2" />
@@ -29,7 +29,7 @@
         <entry key="app/src/main/res/layout/profile_activity.xml" value="0.2" />
         <entry key="app/src/main/res/layout/signup_layout.xml" value="0.25" />
         <entry key="app/src/main/res/layout/spinner_item.xml" value="0.19083333333333333" />
-        <entry key="app/src/main/res/layout/tasks_activity.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/tasks_activity.xml" value="0.2" />
         <entry key="app/src/main/res/layout/tasks_history_activity.xml" value="0.18541666666666667" />
         <entry key="app/src/main/res/layout/tasks_history_item.xml" value="0.33" />
         <entry key="app/src/main/res/layout/tasks_item.xml" value="0.33" />
